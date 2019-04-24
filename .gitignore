@@ -1,5 +1,4 @@
 # Java class files and maven compile output dirs #
-*.class
 target/
 
 # Package Files #
@@ -21,3 +20,4 @@ target/
 # gitbook #
 _book
 tmp
+/logs/
