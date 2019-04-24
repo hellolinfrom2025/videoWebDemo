@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <script src="${ctxPath!}/plugins/pace/pace.min.js"></script>
+    <link href="${ctxPath!}/plugins/pace/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link href="${ctxPath!}/plugins/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/css/fs.css" media="all"/>
+    <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fsDict.js?v=1.7.1"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fs.js?v=1.7.1"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/frame.js?v=1.7.1"></script>
+    <style type="text/css">
+        .layui-table-cell {
+            height: auto !important;
+            white-space: normal;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space1">
+            <div class="layui-col-md12">
+                <div class="layui-form-query">
+                    <form class="layui-form" id="query_form">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-mid">标题：</label>
+                                <div class="layui-input-inline" style="width: 100px;">
+                                    <input type="tel" name="title" autocomplete="off" class="layui-input"/>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-mid">标签：</label>
+                                <div class="layui-input-inline" style="width: 100px;">
+                                    <select name="tag" lay-verType="tips" class="fsSelect" dict="city" addNull="1">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <button class="layui-btn" type="button" function="query"><i class="layui-icon">&#xe615;</i>查询
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="layui-col-md12">
+                <div class="layui-row grid-demo">
+                    <div class="layui-col-md12">
+                        <button class="layui-btn" function="top" topUrl="/videoDetail/add.html" topWidth="800px"
+                                isMaximize="0" topHeight="600px" topTitle="新增">
+                            <i class="layui-icon">&#xe654;</i>新增
+                        </button>
+                        <button class="layui-btn layui-btn-danger" function="submit" method="post"
+                                url="/videoDetail/deleteBatch.do" isMutiDml="1" isConfirm="1" confirmMsg="是否确定删除选中的数据？"
+                                inputs="id:">
+                            <i class="layui-icon">&#xe640;</i>批量删除
+                        </button>
+                        <button class="layui-btn" function="refresh">
+                            <i class="layui-icon">&#xe669;</i>刷新
+                        </button>
+                        <i id='help' style='color:#FF5722;cursor:pointer;' class='layui-icon'>&#xe702;</i>
+                    </div>
+                    <div class="layui-col-md12">
+                        <table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid" isLoad="1"
+                               url="/videoDetail/page.json" isPage="1" sortType="0" pageSize="10"
+                               defaultForm="query_form"
+                               height="full-135"></table>
+                        <div class="fsDatagridCols">
+                            <p type="numbers" title="#"/>
+                            <p checkbox="true"/>
+                            <p align="center" toolbar="#barDemo" title="操作" width="150"/>
+                            <p field="cover" title="封面" width="75" templet="#coverTpl"/>
+                            <p field="title" title="标题" width="150"/>
+                            <p field="desc" title="描述" width="150"/>
+                            <p field="url" title="资源链接" width="150"/>
+                            <p field="tagNames" title="标签" width="100"/>
+                            <p field="playCount" title="播放量" width="100"/>
+                            <p field="goodCount" title="点赞量" width="100"/>
+                            <p field="downloadCount" title="下载量" width="100"/>
+                            <p field="collectCount" title="收藏量" width="100"/>
+                            <p field="grade" title="评分" width="100"/>
+                            <p field="remark" title="备注" width="100"/>
+                            <p field="createPerson" title="创建人" width="100"/>
+                            <p field="createTime" title="创建时间" width="180" templet="#createtimeTpl"/>
+                            <p field="updateTime" title="修改时间" width="180" templet="#updatetimeTpl"/>
+                        </div>
+
+                        <script type="text/html" id="coverTpl">
+                            <div><img src="{{ d.cover}}" width="55px" height="65px"></div>
+                        </script>
+                        <script type="text/html" id="createtimeTpl">
+                            {{#  return layui.fsUtil.toDateString(d.createTime) }}
+                        </script>
+                        <script type="text/html" id="updatetimeTpl">
+                            {{#  return layui.fsUtil.toDateString(d.updateTime) }}
+                        </script>
+                        <script type="text/html" id="barDemo">
+                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top"
+                               topUrl="/videoDetail/edit.html" topMode="readonly" topWidth="800px" topHeight="600px"
+                               topTitle="查看" inputs="id:">查看</a>
+                            <a class="layui-btn layui-btn-xs" lay-event="top" topUrl="/videoDetail/edit.html"
+                               topWidth="800px" topHeight="600px" topTitle="编辑" inputs="id:">编辑</a>
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit"
+                               url="/videoDetail/delete.do" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？"
+                               inputs="id:">删除</a>
+                            <a class="layui-btn layui-btn-xs" lay-event="top" topUrl="/videoDetail/addTag.html"
+                               topWidth="800px" topHeight="600px" topTitle="视频预览" inputs="title:,desc:,cover:,url:">预览</a>
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form;
+
+        var helpTip = "<span style='color:red;'>设置标签</span></br>主要是针对视频的分类进行设置";
+        $("#help").on('mouseenter', function () {
+            this.index = layer.tips(helpTip, this, {
+                tips: [2, '#3A3D49'],
+                time: -1
+            });
+        }).on('mouseleave', function () {
+            layer.close(this.index);
+        });
+
+    });
+</script>
+</body>
+</html>

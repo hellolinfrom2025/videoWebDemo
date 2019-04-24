@@ -1,0 +1,144 @@
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>登录页面</title>
+	<link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/easyui/themes/metro/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/easyui/themes/icon.css">
+
+	<script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js" ></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/easyui/jquery-easyui-datagridview/datagrid-groupview.js"></script>
+	<style>
+		a{
+			text-decoration:none;
+		}
+		body{
+			margin:0px;
+		}
+		#header{
+			width:100%;
+			height:30px;
+			background-color:#E0EFFF;
+			padding-top: 5px;
+			padding-bottom: 10px;
+		}
+		#header .logo{
+			margin-left: 50px;
+			font-size: 24px;
+			font-family: 微软雅黑;
+		}
+		#picture{
+			width:100%;
+			height:750px;
+		}
+		.panel-title {
+			text-align: center;
+			font-size: 16px;
+		}
+		#bootom{
+			padding-top:40px;
+			width:100%;
+			height:100px;
+			background: #eaf2ff;
+		}
+		#bootom_content{
+			margin-left:100px;
+			width:80%;
+			text-align: center;
+			font-size:0.8em;
+		}
+		p{
+			line-height:20px;
+		}
+	</style>
+	<script>
+        $('#p').panel('move',{
+            left:100,
+            top:100
+        });
+        function submitForm(){
+            $('#ff').form('submit',{
+                    url:"Login.do",
+                onSubmit:function(){
+                    return $(this).form('enableValidation').form('validate');
+                }
+            });
+        }
+        function login() {
+            $.ajax({
+                url : '${ctxPath!}/Login.do',
+                data :{
+                    name:$("#usercode").val(),
+                    password:$("#password").val()
+                },
+                type : 'POST',//默认以get提交，以get提交如果是中文后台会出现乱码
+                success : function(obj) {
+                    console.log(obj);
+                    if (obj.success) {
+                        // if(obj.msg!=="null"){
+                         //    window.location.href =obj.msg;
+						// }else{
+                            window.location.href ="/index.html";
+						// }
+
+                    }else{
+                        $.messager.alert("提示信息", "用户名或密码错误");
+                        $('#password').val('');//密码
+
+                    }
+                }
+            });
+        }
+        function clearForm(){
+            $('#ff').form('clear');
+        }
+	</script>
+</head>
+<body>
+<div id="header" >
+	<div class="logo" onclick="window.location.href='index.html'">
+		<!--<strong>黄河一张图视频监控直播平台</strong>-->
+	</div>
+</div>
+<div id="picture" style="background:url(${ctxPath!}/images/xxzx.jpg) no-repeat ; background-size:cover;">
+	<div data-options=" region:'east',split:true,style:{position:'absolute',right:'45%',top:'150'}"
+		 class="easyui-panel " title="用户登录" style="width:300px;text-align: center;">
+		<div style="padding:10px 60px 20px 60px">
+			<form id="ff" class="easyui-form" method="post"  data-options="novalidate:true">
+				<table cellpadding="5">
+					<tr>
+						<td><input id="usercode" value="root" class="easyui-textbox" data-options="prompt:'账号',validType:'usercode'" iconCls="icon-man" iconAlign=left style="width:100%;height:32px"/></td>
+					</tr>
+					<tr>
+						<td><input id="password" value="123456" class="easyui-passwordbox" data-options="prompt:'密码',validType:'password'"  iconAlign=left style="width:100%;height:32px"></input></td>
+					</tr>
+					<!--<tr>-->
+						<!--<td><input class="easyui-textbox" data-options="prompt:'验证码',validType:'validate'" iconCls="icon-filter" iconAlign=left style="width:55%;height:32px" />-->
+							<!--<img src="" alt="" width="56" height="32" align='absMiddle' /> </td>-->
+					<!--</tr>-->
+				</table>
+			</form>
+			<div style="text-align:center;padding:5px; ">
+				<a href="#" rel="external nofollow" rel="external nofollow" class="easyui-linkbutton" onclick="login()" style="width:45%;height:32px">登录</a>
+				<a href="#" rel="external nofollow" rel="external nofollow" class="easyui-linkbutton" onclick="clearForm()" style="width:45%;height:32px">清除</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="bootom">
+	<div id="bootom_content">
+		<p><strong>关于我们      法律声明      服务条款     联系我们</strong></p>
+		<p>
+            ©2018 org.mintleaf
+            https://gitee.com/ZhangMengchu
+        </p>
+		<p>
+			建议使用IE8以上版本浏览器
+		</p>
+	</div>
+</div>
+
+</body>
+</html>

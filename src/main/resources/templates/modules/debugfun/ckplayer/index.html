@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ckplayer</title>
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0px;
+            font-family: "Microsoft YaHei", YaHei, "微软雅黑", SimHei, "黑体";
+            font-size: 18px;
+        }
+
+        p {
+            padding-left: 2em;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="video" style="width: 100%; height: 400px;max-width: 600px;">
+</div>
+<script type="text/javascript" src="${ctxPath!}/plugins/ckplayer/ckplayer.js" charset="UTF-8"></script>
+<script type="text/javascript">
+
+    var vlist = ["http://14.29.60.38/0/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp",
+        "http://14.29.60.38/1/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+        "http://14.29.60.38/2/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+        "http://14.29.60.38/3/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+        "http://14.29.60.38/4/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+        "http://14.29.60.38/5/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+        "http://14.29.60.38/6/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+        "http://14.29.60.38/7/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+        "http://14.29.60.38/8/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp" ,
+    ];
+    var vlen = vlist.length;
+    var curr = 0;
+    var videoObject = {
+        container: '#video', //容器的ID或className
+        variable: 'player', //播放函数名称
+        //loop: true, //播放结束是否循环播放
+        autoplay: false,//是否自动播放
+        poster: '../../../images/ckplayer/material/poster.jpg', //封面图片
+        preview: { //预览图片
+            file: ['../../../images/ckplayer/material/mydream_en1800_1010_01.png', '../../../images/ckplayer/material/mydream_en1800_1010_02.png'],
+            scale: 2
+        },
+        //flashplayer:true,
+        //live:true,
+        //debug:true,
+        video: [
+            ["http://14.29.60.38/0/ef27c075d5a97291b7a152df44be3b40.mp4?fpp.ver=1.3.0.24&key=41708b88e8a7b1efc9b61bdb46a21862&k=f5fad05e924a7fc851a37562b261cbf3-435f-1555582345%26bppcataid%3D17&type=web.fpp",
+                'video/mp4', '中文标清', 0]
+        ]
+
+
+    };
+    var player = new ckplayer(videoObject);
+    player.addListener('ended', function () {
+        curr++;
+        player.newVideo({video: vlist[curr]});
+        player.videoPlay();
+        if (curr >= vlen) {
+            alert('播放完了')
+        }
+    });
+</script>
+<p>欢迎使用ckplayer，当前版本：X1，<a href="http://www.ckplayer.com/" target="_blank">官网</a>，<a
+        href="http://www.ckplayer.com/manualX/" target="_blank">帮助手册</a></p>
+<p><a href="../sample/index.html" target="_blank"/>全功能演示</a></p>
+<p><a href="../sample/iframe.html" target="_blank"/>使用框架播放演示</p>
+<p><a href="../sample/flashplayer.html" target="_blank"/>仅flashplayer播放演示</p>
+<p><a href="/debugFun/ckPlayerH5.html" target="_blank"/>仅H5播放演示</p>
+<p><a href="../sample/rtmp.html" target="_blank"/>RTMP播放示例</p>
+<p><a href="../sample/ios.html" target="_blank"/>在各平台统一播放器风格</p>
+<p><a href="../sample/dm.html" target="_blank"/>弹幕演示</p>
+<p><a href="../sample/adother.html" target="_blank"/>单独配置广告，支持角标广告和片头贴片，中插，结束广告，暂停广告</p>
+<p><a href="http://www.ckplayer.com/" target="_blank"/>更多演示</p>
+</body>
+
+</html>

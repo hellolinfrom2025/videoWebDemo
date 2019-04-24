@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <script src="${ctxPath!}/plugins/pace/pace.min.js"></script>
+    <link href="${ctxPath!}/plugins/pace/themes/pink/pace-theme-flash.css" rel="stylesheet">
+    <link href="${ctxPath!}/plugins/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/css/fs.css" media="all"/>
+    <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fsDict.js?v=1.7.0"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fs.js?v=1.7.0"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/frame.js?v=1.7.0"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/ckplayer/ckplayer.js"></script>
+    <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css" />
+    <script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
+</head>
+<body>
+<div class="layui-fluid">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required="" lay-verType="tips" lay-verify="required"
+                       autocomplete="off" class="layui-input layui-disabled" disabled/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+                <input type="text" name="desc" required="" lay-verType="tips" lay-verify="required"
+                       autocomplete="off" class="layui-input layui-disabled"/>
+            </div>
+        </div>
+        <div class="prism-player" id="player-con"></div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    layui.use(['form', 'layer'], function () {
+        var $ = layui.jquery,
+            layer = layui.layer,
+            form = layui.form;
+
+        var player, curr = 0, vlist_1, vlist_2, vlist_3, vlist_4;
+        player = new Aliplayer({
+                "id": "player-con",
+                "source": '',
+                "width": "100%",
+                "height": "500px",
+                "autoplay": true,
+                "isLive": false,
+                "rePlay": false,
+                "playsinline": true,
+                "preload": true,
+                "controlBarVisibility": "always",
+                "useH5Prism": true
+            }, function (player) {
+                player._switchLevel = 0;
+            }
+        );
+        function endedHandle()
+        {
+            var newUrl = "";
+            curr++;
+            player.loadByUrl(vlist_4[curr]);
+        }
+        player.on("ended", endedHandle);
+        $.ajax({
+            url: '/parseVideoUrl/getPptvUrl', //访问的链接
+            contentType: "application/json;charset=utf-8",
+            data: {url: '${videoObj.url}'},
+            success: function (res) {  //成功的回调函数
+                if (res.success) {
+                    $.each(res.data.urls, function (i, d) {
+                        if (i === 0) {
+                            vlist_1 = d.urlSegms;
+                        } else if (i === 1) {
+                            vlist_2 = d.urlSegms;
+                        } else if (i === 2) {
+                            vlist_3 = d.urlSegms;
+                        } else if (i === 3) {
+                            vlist_4 = d.urlSegms;
+                        }
+                    });
+                    player.loadByUrl(vlist_4[0]);
+                }
+            },
+            error: function (e) {
+                layer.msg("视频解析失败:" + e, {icon: 5});
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

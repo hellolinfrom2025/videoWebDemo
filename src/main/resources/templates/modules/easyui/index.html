@@ -1,0 +1,83 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>MintLeaf-Fast</title>
+	<link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/easyui/themes/metro/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/easyui/themes/icon.css">
+
+	<script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js" ></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/easyui/locale/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/easyui/jquery-easyui-datagridview/datagrid-groupview.js"></script>
+
+	<script>
+        $(function(){
+
+
+            function addTab(title, url){
+
+                if ($('#tt').tabs('exists', title)){
+                    $('#tt').tabs('select', title);
+                } else {
+                    var content = "<iframe scrolling='auto' frameborder='0'  src='"+url+"' style='width:100%;height:100%;'></iframe>";
+                    $('#tt').tabs('add',{
+                        title:title,
+                        content:content,
+                        closable:true
+                    });
+                }
+
+            }
+
+
+                $('#west .easyui-linkbutton').bind('click', function(){
+                    addTab($(this).text(), $(this).attr("url"))
+                });
+
+
+        });
+	</script>
+</head>
+<body class="easyui-layout" >
+<div data-options="region:'north',border:false" style="height:60px;background:#B3DFDA;padding:10px">
+	<div id="thisName" style="position: absolute; left:80px; top:16px; z-index:30001;font-size:18px;color:white;text-shadow:1px 1px 1px #393D49;font-weight:bold">MintLeaf-Fast</div>
+	<div id="logo" style="position: absolute; left:20px; top:8px; z-index:30002;"><img src="${ctxPath!}/images/hammer_icon.png" style="height:42px;width:42px;"></div>
+	<div class="easyui-panel" style="position: absolute; right:15px; top:12px; z-index:30002;width: 170px;">
+		<a href="#" class="easyui-menubutton" data-options="menu:'#mm2',iconCls:'icon-man'">欢迎您，${user!}</a>
+	</div>
+
+	<div id="mm2" style="width:100px;">
+		<div data-options="iconCls:'icon-undo'"><a href="/loginOut.do" style="color: black">登出</a></div>
+	</div>
+
+</div>
+<div id="west" data-options="region:'west',split:true,title:'菜单',iconCls:''" style="width:200px;">
+	<div  class="easyui-accordion" data-options="fit:true">
+		<div title="业务模块" data-options="iconCls:'icon-tip'">
+			<a href="#" url="${ctxPath!}/stshipinb/index.html" class="easyui-linkbutton" data-options="iconCls:'',plain:'true'">黄委视频监控</a>
+			<a href="#" url="${ctxPath!}/views/video/h5test.html" class="easyui-linkbutton" data-options="iconCls:'',plain:'true'">H5视频测试</a>
+			<a href="#" url="${ctxPath!}/views/video/trackingtest.html" class="easyui-linkbutton" data-options="iconCls:'',plain:'true'">图像识别测试</a>
+			<a href="#" url="${ctxPath!}/upload/index.html" class="easyui-linkbutton" data-options="iconCls:'',plain:'true'">多文件上传测试</a>
+		</div>
+		<div title="系统模块" data-options="iconCls:'icon-man'">
+			<a href="#" url="${ctxPath!}/druid/index.html" class="easyui-linkbutton" data-options="iconCls:'',plain:'true'">Druid监控</a>
+		</div>
+		<div title="其他" data-options="iconCls:'icon-help'">
+			开发建设中...
+		</div>
+	</div>
+</div>
+ <!--<div id="east" data-options="region:'east',split:true,collapsed:false,title:'扩展功能',iconCls:'icon-more'" style="width:150px;">-->
+
+	 <!---->
+ <!--</div>-->
+<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">©2018 org.mintleaf
+    https://gitee.com/ZhangMengchu</div>
+<div id="test"  data-options="region:'center',title:'主面板',iconCls:''">
+	<div id="tt" class="easyui-tabs" data-options="fit:true,border:false,plain:true">
+		<div title="主页" data-options="href:''" style="padding:10px"><iframe id="indexFrame"  scrolling="auto" frameborder="0"  src="http://www.jeasyui.com/index.php" style="width:100%;height:100%;"></iframe></div>
+	</div>
+
+</div>
+</body>
+</html>

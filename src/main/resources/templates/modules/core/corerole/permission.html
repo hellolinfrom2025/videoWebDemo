@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta http-equiv ="Pragma" content = "no-cache"/>
+	<meta http-equiv="Cache-Control" content="no cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="format-detection" content="telephone=no"/>
+	<script src="${ctxPath!}/plugins/pace/pace.min.js"></script>
+	<link href="${ctxPath!}/plugins/pace/themes/pink/pace-theme-flash.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
+	<link rel="stylesheet" type="text/css" href="${ctxPath!}/css/fs.css" media="all"/>
+	<link rel="stylesheet" href="${ctxPath!}/plugins/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css"/>
+	<script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/tinymce/tinymce.min.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/tinymce/jquery.tinymce.min.js"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fsDict.js?v=1.5.0"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fs.js?v=1.5.0"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/frame/js/frame.js?v=1.5.0"></script>
+	<script type="text/javascript" src="${ctxPath!}/plugins/ztree/js/jquery.ztree.all.min.js?v=1.5.0"></script>
+</head>
+<body>
+<div class="layui-fluid">
+
+	<form class="layui-form" id="edit_form" isLoad="1" method="post" loadUrl="/coreRole/findById.json">
+		<input type="hidden" name="id" id="roleId"/>
+		<div class="layui-form-item">
+			<label class="layui-form-label">角色名称</label>
+			<div class="layui-input-inline">
+				<input type="text" name="name" required="" lay-verType="tips" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input" disabled/>
+			</div>
+
+		</div>
+		<div class="layui-form-item">
+			<ul id="permissions" name="permissions"  class="ztree"></ul>
+		</div>
+
+		<hr/>
+		<div class="layui-form-item" style="text-align: center;">
+			<button id="savePermissions" type="button" class="layui-btn" >提交</button>
+			<button type="button" class="layui-btn layui-btn-primary" function="close">关闭</button>
+		</div>
+	</form>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    layui.use(['form','layer'], function () {
+        var $ = layui.jquery,
+            layer = parent.layer === undefined ? layui.layer : parent.layer,
+            form = layui.form;
+
+        var urls = {
+            getMenuTree: "/coreRole/getMenuTree.json",
+            getPermission: "/coreRole/getPermission.json",
+            addPermission: "/coreRole/addPermission.do"
+        };
+
+        var setting = {
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+
+        var menus;
+
+        var roleMenu;
+
+        setTimeout(function(){
+            $.ajax({
+                url : urls.getMenuTree,
+                type : 'POST',
+                dataType : 'json',
+                success : function(obj) {
+                    menus=obj.data;
+                    $.ajax({
+                        url : urls.getPermission,
+                        type : 'POST',
+                        data :{
+                            roleId:$("#roleId").val()
+                        },
+                        dataType : 'json',
+                        success : function(data) {
+                            roleMenu=data.data;
+                            console.log(roleMenu,$(" input[ name='name' ] ").val());
+                            for (var i = 0; i < menus.length; i++) {
+                                for (var k = 0; k < roleMenu.length; k++) {
+                                    if(menus[i].id==roleMenu[k].menuid||menus[i].id==roleMenu[k].buttonid){
+                                        menus[i].checked=true;
+                                    }
+                                }
+                            }
+                            $.fn.zTree.init($("#permissions"), setting, menus);
+                            $.fn.zTree.getZTreeObj("permissions").expandAll(true);
+                        },
+                        error : function() {//失败处理函数
+                            layer.msg('角色菜单权限接口请求异常！', {icon: 2});
+                        }
+                    });
+
+                },
+                error : function() {//失败处理函数
+                    layer.msg('菜单树接口请求异常！', {icon: 2});
+                }
+            });
+        },100);
+
+        $("#savePermissions").click(function (){
+            var zTree = $.fn.zTree.getZTreeObj("permissions");
+            var nodes = zTree.getCheckedNodes(true);
+                var auths = new Array();
+                for (var i = 0; i < nodes.length; i++) {
+                    auths.push(nodes[i].id)
+                }
+            $.ajax({
+                url : urls.addPermission,
+                data :{
+                    menuIds:auths.join(","),
+                    roleId:$("#roleId").val()
+                },
+                type : 'POST',
+                dataType : 'json',
+                success : function(obj) {
+                    if (obj && obj.success) {
+                        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                        parent.layer.close(index); //再执行关闭
+                        layer.msg('操作成功！', {icon: 1});
+                    } else {
+                        layer.msg('操作失败！', {icon: 2});
+                    }
+                },
+                error : function() {//失败处理函数
+                    layer.msg('请求异常！', {icon: 2});
+                }
+            });
+        });
+
+    });
+</script>
+</html>

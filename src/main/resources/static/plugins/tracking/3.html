@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>基于tracking的取人脸</title>
+    <script src="js/tracking-min.js"></script>
+    <script src="js/face-min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        video, #canvas,#canvas1 {
+            position: absolute;
+            width: 581px;
+            height: 436px;
+        }
+
+        #canvas1 {
+            position: absolute;
+        }
+
+        .container {
+            position: relative;
+            width: 581px;
+            height: 436px;
+        }
+        #keepImg{
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            display: inline-block;
+            float: left;
+        }
+        #btn{
+            width: 100px;
+            height: 100px;
+            background-color: deeppink;
+            display: inline-block;
+            float: left;
+        }
+        #img{
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<h1>请将脸放到方框中</h1>
+<h6>经测试该demo可以适用于大部分最新浏览器，ie暂不支持。</h6>
+<p>下方两个按钮为手动模式，可手动保存图片</p>
+<div class="container">
+    <video id="video" preload autoplay loop muted></video>
+    <canvas id="canvas" width="581" height="436"></canvas>
+    <canvas id="canvas1" width="581" height="436"></canvas>
+</div>
+<div id="keepImg">保存图片</div>
+<div id="btn">截图</div>
+<canvas id="shortCut" width="140" height="140"></canvas>
+<div id="img"></div>
+<script>
+    var saveArray = {};
+    window.onload = function () {
+        var video = document.getElementById('video');
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+
+        var tracker = new tracking.ObjectTracker('face');
+        tracker.setInitialScale(4);
+        tracker.setStepSize(2);
+        tracker.setEdgesDensity(0.1);
+
+        tracking.track('#video', tracker, {camera: true});
+
+        tracker.on('track', function (event) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            event.data.forEach(function (rect) {
+                context.strokeStyle = '#fff';
+                context.strokeRect(rect.x, rect.y, rect.width, rect.height);
+                //context.font = '11px Helvetica';
+                context.fillStyle = "#fff";
+                // context.fillText('x: ' + rect.x + 'px', rect.x + rect.width + 5, rect.y + 11);
+                // context.fillText('y: ' + rect.y + 'px', rect.x + rect.width + 5, rect.y + 22);
+                //console.log(rect.x, rect.width, rect.y, rect.height);
+                saveArray.x = rect.x;
+                saveArray.y = rect.y;
+                saveArray.width = rect.width;
+                saveArray.height = rect.height;
+            });
+        });
+        setInterval(function () {
+            //console.log(saveArray);
+            if (saveArray.x > 200 &&
+                    saveArray.x + saveArray.width < 400 &&
+                    saveArray.y > 120 &&
+                    saveArray.y + saveArray.height < 320 &&
+                    saveArray.width < 180
+                    && saveArray.height < 180) {
+                console.log(saveArray);
+                getPhoto();
+                for (var key in saveArray) {
+                    delete saveArray[key];
+                }
+            }
+        }, 2000);
+        function getPhoto() {
+            context2.drawImage(video, 210, 130, 210, 210, 0, 0, 140, 140); //将video对象内指定的区域捕捉绘制到画布上指定的区域，实现拍照。
+        }
+        //截图
+        var btn = document.getElementById("btn");
+        btn.onclick= function () {
+            getPhoto();
+        }
+        var canvas1 = document.getElementById('canvas1');
+        var context1 = canvas1.getContext('2d');
+        var can = document.getElementById('shortCut');
+        var context2 = can.getContext('2d');
+        context1.strokeStyle = "#69fff1";
+        context1.moveTo(190, 118);
+        context1.lineTo(390, 118);
+        context1.lineTo(390, 318);
+        context1.lineTo(190, 318);
+        context1.lineTo(190, 118);
+        context1.stroke();
+
+
+        var img = document.getElementById("img")
+        //将canvas转化为图片
+        function convertCanvasToImage(canvas) {
+            var image = new Image();
+            image.src = canvas.toDataURL("image/png");
+            return image;
+        }
+        //保存图片
+        var keepImg = document.getElementById("keepImg");
+        keepImg.onclick = function () {
+            var photoImg = document.createElement("img");
+            photoImg.src = convertCanvasToImage(can).src;
+            img.appendChild(photoImg);
+            //获取到转化为base64的图片地址
+            console.log(convertCanvasToImage(can).src);
+        }
+        //拍照
+    };
+
+</script>
+
+</body>
+</html>
