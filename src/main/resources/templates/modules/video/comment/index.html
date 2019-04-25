@@ -49,10 +49,6 @@
             <div class="layui-col-md12">
                 <div class="layui-row grid-demo">
                     <div class="layui-col-md12">
-                        <button class="layui-btn" function="top" topUrl="/videoDetail/add.html" topWidth="800px"
-                                isMaximize="0" topHeight="600px" topTitle="新增">
-                            <i class="layui-icon">&#xe654;</i>新增
-                        </button>
                         <button class="layui-btn layui-btn-danger" function="submit" method="post"
                                 url="/videoDetail/deleteBatch.do" isMutiDml="1" isConfirm="1" confirmMsg="是否确定删除选中的数据？"
                                 inputs="id:">
@@ -61,37 +57,55 @@
                         <button class="layui-btn" function="refresh">
                             <i class="layui-icon">&#xe669;</i>刷新
                         </button>
-                        <i id='help' style='color:#FF5722;cursor:pointer;' class='layui-icon'>&#xe702;</i>
                     </div>
                     <div class="layui-col-md12">
                         <table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid" isLoad="1"
+                               clickRenderTable="fsDatagrid2" clickRenderTableInputs="commentId:$id"
                                url="/comment/page.json" isPage="1" sortType="0" pageSize="10"
                                defaultForm="query_form"
-                               height="full-135"></table>
+                               height="300"></table>
                         <div class="fsDatagridCols">
                             <p type="numbers" title="#"/>
                             <p checkbox="true"/>
-                            <p field="videoTitle" title="视频标题" width="100" templet="titleTpl"/>
+                            <p field="videoTitle" title="视频标题" width="150" sort=“true” templet="titleTpl"/>
                             <p field="videoDesc" title="描述" width="150"/>
                             <p field="userName" title="用户" width="100"/>
-                            <p field="content" title="内容" width="200"/>
-                            <p field="time" title="创建时间" width="180" templet="#createtimeTpl"/>
-                            <p align="center" toolbar="#barDemo" title="操作" width="200"/>
+                            <p field="content" title="内容" width="350"/>
+                            <p field="time" title="创建时间" width="160" sort=“true” formatType=“datetime”/>
+                            <p align="center" toolbar="#barDemo" title="操作" width="100"/>
                         </div>
-                        <script type="text/html" id="createtimeTpl">
-                            {{#  return layui.fsUtil.toDateString(d.time) }}
-                        </script>
                         <script type="text/html" id="barDemo">
-                            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top"
-                               topUrl="/videoDetail/edit.html" topMode="readonly" topWidth="800px" topHeight="600px"
-                               topTitle="查看" inputs="id:">查看</a>
-                            <a class="layui-btn layui-btn-xs" lay-event="top" topUrl="/videoDetail/edit.html"
-                               topWidth="800px" topHeight="600px" topTitle="编辑" inputs="id:">编辑</a>
                             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit"
                                url="/videoDetail/delete.do" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？"
                                inputs="id:">删除</a>
-                            <a class="layui-btn layui-btn-xs" lay-event="top" topUrl="/videoDetail/addTag.html"
-                               topWidth="800px" topHeight="600px" topTitle="视频预览" inputs="title:,desc:,cover:,url:">预览</a>
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <hr style="color: red"/>
+            <div class="layui-col-md12">
+                <div class="layui-row grid-demo">
+                    <div class="layui-col-md12">
+                        <i id='help' style='color:#FF5722;cursor:pointer;' class='layui-icon'>&#xe702;</i>
+                    </div>
+                    <div class="layui-col-md12">
+                        <table id="fsDatagrid2" lay-filter="fsDatagrid2" class="fsDatagrid" isLoad="0"
+                               url="/comment/findReplyPage.json" isPage="1" sortType="0" pageSize="10"
+                               height="140"></table>
+                        <div class="fsDatagridCols">
+                            <p type="numbers" title="#"/>
+                            <p checkbox="true"/>
+                            <p field="commentCont" title="评论内容" width="350" sort=“true” templet="titleTpl"/>
+                            <p field="toUserName" title="目标用户" width="100"/>
+                            <p field="fromUserName" title="回复用户" width="100"/>
+                            <p field="content" title="回复内容" width="350"/>
+                            <p field="time" title="回复时间" width="160" sort=“true” formatType=“datetime” />
+                            <p align="center" toolbar="#barDemo" title="操作" width="100"/>
+                        </div>
+                        <script type="text/html" id="barDemo2">
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit"
+                               url="/videoDetail/delete.do" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？"
+                               inputs="id:">删除</a>
                         </script>
                     </div>
                 </div>
@@ -106,7 +120,7 @@
             layer = layui.layer,
             form = layui.form;
 
-        var helpTip = "<span style='color:red;'>设置标签</span></br>主要是针对视频的分类进行设置";
+        var helpTip = "<span style='color:red;'>设置标签</span></br>主要是针对视频下评论的回复进行管理";
         $("#help").on('mouseenter', function () {
             this.index = layer.tips(helpTip, this, {
                 tips: [2, '#3A3D49'],

@@ -4,9 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.beetl.sql.core.engine.PageQuery;
+import org.mintleaf.modules.core.dao.CoreUserDao;
 import org.mintleaf.modules.core.entity.CoreUser;
 import org.mintleaf.modules.video.dao.CommentDao;
+import org.mintleaf.modules.video.dao.ReplyDao;
+import org.mintleaf.modules.video.dao.VideoDao;
 import org.mintleaf.modules.video.entity.Comment;
+import org.mintleaf.modules.video.entity.Reply;
 import org.mintleaf.modules.video.entity.Video;
 import org.mintleaf.vo.PageFrame;
 import org.mintleaf.vo.ResultMsg;
@@ -27,12 +31,18 @@ import java.util.List;
  * @Date: 2018/8/23 15:38
  * @Version 1.0
  */
-@Api(tags = "视频分类标签控制器", description = "描述")
+@Api(tags = "视频评论控制器", description = "描述")
 @Controller
 @RequestMapping("comment")
 public class CommentController {
     @Autowired
     CommentDao commentDao;
+    @Autowired
+    ReplyDao replyDao;
+    @Autowired
+    CoreUserDao userDao;
+    @Autowired
+    VideoDao videoDao;
 
     /**
      * 进入列表页面
@@ -86,6 +96,45 @@ public class CommentController {
         long totalRow = pageQuery.getTotalRow();
         PageFrame pageFrame = new PageFrame();
         pageFrame.setList(comms);
+        pageFrame.setPageNum(Long.valueOf(pageNum));
+        pageFrame.setPageSize(Long.valueOf(pageSize));
+        pageFrame.setPages(totalPage);
+        pageFrame.setTotal(totalRow);
+        ResultMsg result = new ResultMsg();
+        result.setData(pageFrame);
+        return result;
+    }
+
+    /**
+     * 根据评论ID、分页获得回复数据
+     *
+     * @param reply
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @ApiOperation(value = "根据评论ID、分页获得回复数据", notes = "描述")
+    @RequestMapping(value = "findReplyPage.json", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResultMsg replyPage(@ModelAttribute Reply reply, Long pageNum, Long pageSize) {
+        PageQuery<Reply> pageQuery = new PageQuery<>();
+        pageQuery.setPageSize(Long.valueOf(pageSize));
+        pageQuery.setPageNumber(Long.valueOf(pageNum));
+        pageQuery.setParas(reply);
+        replyDao.templatePage(pageQuery);
+        List<Reply> replies = pageQuery.getList();
+        for (Reply rp : replies) {
+            Comment comment = (Comment) rp.getTails().get("comment");
+            CoreUser user = (CoreUser) rp.getTails().get("coreUser");
+            CoreUser toUserName = userDao.single(rp.getToUserId());
+            rp.setToUserName(toUserName.getName());
+            rp.setFromUserName(user.getName());
+            rp.setCommentCont(comment.getContent());
+        }
+        long totalPage = pageQuery.getTotalPage();
+        long totalRow = pageQuery.getTotalRow();
+        PageFrame pageFrame = new PageFrame();
+        pageFrame.setList(replies);
         pageFrame.setPageNum(Long.valueOf(pageNum));
         pageFrame.setPageSize(Long.valueOf(pageSize));
         pageFrame.setPages(totalPage);

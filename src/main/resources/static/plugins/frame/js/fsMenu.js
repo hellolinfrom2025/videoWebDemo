@@ -12,7 +12,7 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
 			loadUrl : "/getMenus.json", //加载数据地址
 			method : "post",//请求类型，默认post
 			rootMenuId : 0, //根目录菜单id
-			defaultSelectTopMenuId : 43, //默认选中头部菜单id
+			defaultSelectTopMenuId : 2, //默认选中头部菜单id
 			defaultSelectLeftMenuId : 52, //默认选中左边菜单id
 			menuIdField : "id", //菜单id
 			menuNameField : "name", //菜单名称

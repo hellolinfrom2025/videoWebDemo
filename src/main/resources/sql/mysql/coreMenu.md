@@ -72,7 +72,8 @@ WHERE
 	m.id = rm.menuid
 AND ur.roleid = rm.roleid
 AND ur.userid = u.id
-AND u.name = #name#
+AND u.name = #name# 
+ORDER BY parentid , display 
 
 
 findMenuByRoleSample
