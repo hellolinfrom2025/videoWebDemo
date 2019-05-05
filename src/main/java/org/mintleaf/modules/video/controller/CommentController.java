@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 /**
- * 角色相关控制器
+ * 视频评论控制器
  *
  * @Author: Lin
  * @Date: 2018/8/23 15:38
@@ -66,6 +66,55 @@ public class CommentController {
     public ModelAndView add() {
         return new ModelAndView("modules/video/comment/add.html");
     }
+
+    /**
+     * 删除评论操作
+     *
+     * @param comm
+     * @return
+     */
+    @ApiOperation(value = "删除评论操作", notes = "描述")
+    @RequestMapping(value = "delComment.do", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResultMsg delComment(Comment comm) {
+        commentDao.deleteById(comm.getId());
+        //删除评论下的回复
+        replyDao.deleteByCommId(comm.getId());
+        ResultMsg result = new ResultMsg();
+        return result;
+    }
+
+    /**
+     * 批量删除评论操作
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "批量删除评论操作", notes = "描述")
+    @RequestMapping(value = "delCommBatch.do", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResultMsg delCommBatch(String id) {
+        commentDao.deleteByIds(id.split(","));
+        replyDao.deleteByCommIds(id.split(","));
+        ResultMsg result = new ResultMsg();
+        return result;
+    }
+
+    /**
+     * 删除回复操作
+     *
+     * @param reply
+     * @return
+     */
+    @ApiOperation(value = "删除回复操作", notes = "描述")
+    @RequestMapping(value = "delReply.do", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResultMsg delReply(Reply reply) {
+        replyDao.deleteById(reply.getId());
+        ResultMsg result = new ResultMsg();
+        return result;
+    }
+
 
     /**
      * 分页获得评论数据

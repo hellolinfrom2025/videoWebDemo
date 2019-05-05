@@ -50,7 +50,7 @@
                 <div class="layui-row grid-demo">
                     <div class="layui-col-md12">
                         <button class="layui-btn layui-btn-danger" function="submit" method="post"
-                                url="/videoDetail/deleteBatch.do" isMutiDml="1" isConfirm="1" confirmMsg="是否确定删除选中的数据？"
+                                url="/comment/delCommBatch.do" isMutiDml="1" isConfirm="1" confirmMsg="是否确定删除选中的数据？"
                                 inputs="id:">
                             <i class="layui-icon">&#xe640;</i>批量删除
                         </button>
@@ -76,7 +76,7 @@
                         </div>
                         <script type="text/html" id="barDemo">
                             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit"
-                               url="/videoDetail/delete.do" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？"
+                               url="/comment/delComment.do" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？"
                                inputs="id:">删除</a>
                         </script>
                     </div>
@@ -91,7 +91,7 @@
                     <div class="layui-col-md12">
                         <table id="fsDatagrid2" lay-filter="fsDatagrid2" class="fsDatagrid" isLoad="0"
                                url="/comment/findReplyPage.json" isPage="1" sortType="0" pageSize="10"
-                               height="140"></table>
+                               height="150"></table>
                         <div class="fsDatagridCols">
                             <p type="numbers" title="#"/>
                             <p checkbox="true"/>
@@ -104,7 +104,7 @@
                         </div>
                         <script type="text/html" id="barDemo2">
                             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit"
-                               url="/videoDetail/delete.do" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？"
+                               url="/comment/delReply.do" isConfirm="1" method="post" confirmMsg="是否确定删除当前记录？"
                                inputs="id:">删除</a>
                         </script>
                     </div>

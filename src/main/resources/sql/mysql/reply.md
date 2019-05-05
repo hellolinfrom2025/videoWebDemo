@@ -42,4 +42,14 @@ condition
 	 and time=#time#
 	@}
 	
-	
+deleteByCommId
+===
+* 根据评论ID删除回复
+
+    delete from reply where comment_id = #commentId#
+    
+deleteByCommIds
+====
+* 批量删除操作
+
+delete from reply where comment_id in (#join(ids)#)	

@@ -1,5 +1,6 @@
 package org.mintleaf.modules.video.entity;
 
+import org.beetl.sql.core.TailBean;
 import org.beetl.sql.core.annotatoin.AssignID;
 import org.beetl.sql.core.annotatoin.Table;
 
@@ -9,7 +10,7 @@ import org.beetl.sql.core.annotatoin.Table;
 * gen by beetlsql 2019-04-11
 */
 @Table(name="mintleaf_fast.video_tag")
-public class VideoTag   {
+public class VideoTag extends TailBean {
 	@AssignID
 	private Integer id ;
 	private Integer videoId ;

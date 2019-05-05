@@ -33,5 +33,9 @@ condition
 	 and time=#time#
 	@}
 	
+deleteByIds
+====
+* 批量删除操作
 
+delete from comment where id in (#join(ids)#)
 	

@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MintLeaf-Fast登录</title>
-	<%include("/meta.html"){}%>
-	<link rel="shortcut icon" href="${ctxPath!}/images/mintleaf.png" />
-	<link rel="stylesheet" type="text/css" href="${ctxPath!}/css/login.css" media="all"/>
-	<link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
-	<script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
+    <title>VideoWebDemo登录</title>
+    <%include("/meta.html"){}%>
+    <link rel="shortcut icon" href="${ctxPath!}/images/mintleaf.png"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/css/login.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
+    <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
 </head>
 <body>
-	<!--<video class="video-player" preload="auto" autoplay="autoplay" loop="loop" data-height="1080" data-width="1920" height="1080" width="1920">-->
-	    <!--<source src="${ctxPath!}/images/login.mp4" type="video/mp4">-->
-	    <!--&lt;!&ndash; 此视频文件为支付宝所有，在此仅供样式参考，如用到商业用途，请自行更换为其他视频或图片，否则造成的任何问题使用者本人承担，谢谢 &ndash;&gt;-->
-	<!--</video>-->
-	<img  class="video-player" height="100%" width="100%" src="${ctxPath!}/images/banner5.jpg">
-	<div class="video_mask"></div>
-	<div class="login">
-	    <h1>MintLeaf-Fast登录</h1>
-	    <form class="layui-form">
-	    	<div class="layui-form-item">
-				<input class="layui-input" name="username" value="root" placeholder="用户名" lay-verify="required" type="text" autocomplete="off">
-		    </div>
-		    <div class="layui-form-item">
-				<input class="layui-input" name="password" value="123456" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
-		    </div>
-		    <div class="layui-form-item form_code">
-				<input class="layui-input" name="verifyCodeActual" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
-				<div class="code"><img id="captcha_img" alt="点击更换" title="点击更换" onclick="refresh()" src="/captcha/getCaptcha.jpg" width="116" height="36"/></div>
-		    </div>
-			<button class="layui-btn login_btn" lay-submit="" lay-filter="login" >登录</button>
-		</form>
-	</div>
+<img height="100%" width="100%" src="${ctxPath!}/images/login-bg1.jpg">
+<div class="video_mask"></div>
+<div class="login">
+    <h1>VideoWebDemo登录</h1>
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <input class="layui-input" name="username" value="root" placeholder="用户名" lay-verify="required" type="text"
+                   autocomplete="off">
+        </div>
+        <div class="layui-form-item">
+            <input class="layui-input" name="password" value="123456" placeholder="密码" lay-verify="required"
+                   type="password" autocomplete="off">
+        </div>
+        <div class="layui-form-item form_code">
+            <input class="layui-input" name="verifyCodeActual" placeholder="验证码" lay-verify="required" type="text"
+                   autocomplete="off">
+            <div class="code"><img id="captcha_img" alt="点击更换" title="点击更换" onclick="refresh()"
+                                   src="/captcha/getCaptcha.jpg" width="116" height="36"/></div>
+        </div>
+        <button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
+    </form>
+</div>
 </body>
 <script type="text/javascript">
     function refresh() {
-        document.getElementById('captcha_img').src="/captcha/getCaptcha.jpg?"+Math.random();
+        document.getElementById('captcha_img').src = "/captcha/getCaptcha.jpg?" + Math.random();
     }
-    layui.use(['form','layer'],function(){
+
+    layui.use(['form', 'layer'], function () {
         var form = layui.form,
             layer = parent.layer === undefined ? layui.layer : parent.layer,
             $ = layui.jquery;
@@ -45,33 +46,24 @@
             login: "/login.do"
         };
 
-        // video背景
-        // $(window).resize(function(){
-        //     if($(".video-player").width() > $(window).width()){
-        //         $(".video-player").css({"height":$(window).height(),"width":"auto","left":-($(".video-player").width()-$(window).width())/2});
-        //     }else{
-        //         $(".video-player").css({"width":$(window).width(),"height":"auto","left":-($(".video-player").width()-$(window).width())/2});
-        //     }
-        // }).resize();
-
         //登录按钮事件
-        form.on("submit(login)",function(data){
+        form.on("submit(login)", function (data) {
             $.ajax({
-                url : urls.login,
-                data :{
-                    name:data.field.username,
-                    password:data.field.password,
-                    verifyCodeActual:data.field.verifyCodeActual
+                url: urls.login,
+                data: {
+                    name: data.field.username,
+                    password: data.field.password,
+                    verifyCodeActual: data.field.verifyCodeActual
                 },
-                type : 'POST',
-                success : function(obj) {
+                type: 'POST',
+                success: function (obj) {
                     if (obj.success) {
-                        window.location.href ="/index.html";
-                    }else{
+                        window.location.href = "/index.html";
+                    } else {
                         layer.msg(obj.msg, {icon: 2});
                     }
                 },
-                error : function() {//失败处理函数
+                error: function () {//失败处理函数
                     layer.msg('请求异常！', {icon: 2});
                 }
             });
