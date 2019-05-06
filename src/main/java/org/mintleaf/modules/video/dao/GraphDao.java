@@ -2,6 +2,7 @@ package org.mintleaf.modules.video.dao;
 
 import org.beetl.sql.core.annotatoin.SqlResource;
 import org.beetl.sql.core.mapper.BaseMapper;
+import org.mintleaf.modules.video.entity.Video;
 import org.mintleaf.modules.video.entity.VideoTag;
 import org.springframework.stereotype.Component;
 
@@ -12,4 +13,8 @@ import java.util.List;
 public interface GraphDao extends BaseMapper<VideoTag> {
     List<VideoTag> getTagToEchart();
     List<VideoTag> getVideoTagToEchart();
+    List<Video> getVideoPlayTop();
+    List<Video> getVideoDownloadTop();
+    List<Video> getVideoGoodTop();
+    List<Video> getVideoCollectTop();
 }

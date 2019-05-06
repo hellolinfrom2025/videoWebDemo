@@ -21,7 +21,6 @@
     <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fsDict.js?v=1.7.0"></script>
     <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/fs.js?v=1.7.0"></script>
     <script type="text/javascript" src="${ctxPath!}/plugins/frame/js/frame.js?v=1.7.0"></script>
-    <script type="text/javascript" src="${ctxPath!}/plugins/ckplayer/ckplayer.js"></script>
     <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css" />
     <script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
 </head>
@@ -73,7 +72,7 @@
         {
             var newUrl = "";
             curr++;
-            player.loadByUrl(vlist_4[curr]);
+            player.loadByUrl(vlist_3[curr]);
         }
         player.on("ended", endedHandle);
         $.ajax({
@@ -93,7 +92,7 @@
                             vlist_4 = d.urlSegms;
                         }
                     });
-                    player.loadByUrl(vlist_4[0]);
+                    player.loadByUrl(vlist_3[0]);
                 }
             },
             error: function (e) {

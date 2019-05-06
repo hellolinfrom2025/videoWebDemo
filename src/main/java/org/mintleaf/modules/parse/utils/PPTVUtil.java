@@ -286,6 +286,9 @@ public class PPTVUtil {
         String[] ss1 = deleteFirst(HEX.split(""));
         
         while (i < 8) {
+//        	int t = 28 - ((i % 8) * 4);
+//        	int a = arg >>>t;
+//        	int b = a  & 0x0F;
         	i1 = (arg >>> (28 - ((i % 8) * 4))) & 0x0F;
             sb.append(ss1[i1]);
             i++;

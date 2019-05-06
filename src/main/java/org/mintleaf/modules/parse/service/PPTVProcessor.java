@@ -29,14 +29,6 @@ public class PPTVProcessor implements PageProcessor {
                 .addPipeline((resultItems, task) -> videoUrls[0] = resultItems.get("videoUrl"))
                 .run();
 
-//        VideoUrl videoUrl
-        for (VideUrlOne videUrlOne : videoUrls[0].getUrls()) {
-            for (String urlSegm : videUrlOne.getUrlSegms()) {
-//                urlSegm1 =  urlSegm.replaceAll("[\u0000]", "");
-
-            }
-        }
-
         return videoUrls[0];
     }
 

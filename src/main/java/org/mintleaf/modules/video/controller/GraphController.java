@@ -18,6 +18,7 @@ import com.github.abel533.echarts.style.itemstyle.Normal;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.mintleaf.modules.video.dao.GraphDao;
+import org.mintleaf.modules.video.entity.Video;
 import org.mintleaf.modules.video.entity.VideoTag;
 import org.mintleaf.vo.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -85,7 +87,7 @@ public class GraphController {
         pie2.radius(new String[]{"40%", "55%"}).label(label2);
         List<VideoTag> videoTags = graphDao.getVideoTagToEchart();
         for (VideoTag videoTag : videoTags) {
-            pie2.data(new PieData(videoTag.getTails().get("name").toString(),videoTag.getTails().get("value")));
+            pie2.data(new PieData(videoTag.getTails().get("name").toString(), videoTag.getTails().get("value")));
         }
         option.series(pie1, pie2);
         ResultMsg result = new ResultMsg();
@@ -99,26 +101,66 @@ public class GraphController {
      * @return
      */
     @ResponseBody
-    @ApiOperation(value = "获得视频标签给echart", notes = "描述")
-    @RequestMapping(value = "getVideoPlayTop.echart", method = {RequestMethod.GET})
-    public ResultMsg getVideoPlayTop() {
+    @ApiOperation(value = "获得视频播放总量的前六给echart", notes = "描述")
+    @RequestMapping(value = "getVideoTotalTop.echart", method = {RequestMethod.GET})
+    public ResultMsg getVideoTotalTop(String type) {
+        List<Video> videos = new ArrayList<>();
+        String[] xAxisData = new String[6];
+        Integer[] yAxisData = new Integer[6];
+        switch (type) {
+            case "play":
+                videos = graphDao.getVideoPlayTop();
+                for (int i = 0; i < videos.size(); i++) {
+                    xAxisData[i] = videos.get(i).getTitle();
+                    yAxisData[i] = videos.get(i).getPlayCount();
+                }
+                break;
+            case "download":
+                videos = graphDao.getVideoDownloadTop();
+                for (int i = 0; i < videos.size(); i++) {
+                    xAxisData[i] = videos.get(i).getTitle();
+                    yAxisData[i] = videos.get(i).getDownloadCount();
+                }
+                break;
+            case "good":
+                videos = graphDao.getVideoGoodTop();
+                for (int i = 0; i < videos.size(); i++) {
+                    xAxisData[i] = videos.get(i).getTitle();
+                    yAxisData[i] = videos.get(i).getGoodCount();
+                }
+                break;
+            case "collect":
+                videos = graphDao.getVideoCollectTop();
+                for (int i = 0; i < videos.size(); i++) {
+                    xAxisData[i] = videos.get(i).getTitle();
+                    yAxisData[i] = videos.get(i).getCollectCount();
+                }
+                break;
+            default:
+                break;
+
+        }
+
         Option option = new Option();
-        option.xAxis(new CategoryAxis().data("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"));
+//        option.xAxis(new CategoryAxis().data("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"));
+        option.xAxis(new CategoryAxis().data(xAxisData));
         option.yAxis(new ValueAxis());
         Bar bar = new Bar();
-        bar.data(320, 200, 150, 80, 70, 10, 5);
+//        bar.data(320, 200, 150, 80, 70, 10, 5);
+        bar.data(yAxisData);
         option.series(bar);
         ResultMsg result = new ResultMsg();
         result.setData(option);
         return result;
     }
+
     /**
      * 获得视频标签给echart的饼图
      *
      * @return
      */
     @ResponseBody
-    @ApiOperation(value = "获得视频标签给echart", notes = "描述")
+    @ApiOperation(value = "获得视频下载总量的前六给echart", notes = "描述")
     @RequestMapping(value = "getVideoDownloadTop.echart", method = {RequestMethod.GET})
     public ResultMsg getVideoDownloadTop() {
         Option option = new Option();
