@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>videoWebDemo</title>
+    <%include("/meta.html"){}%>
+    <link rel="shortcut icon" href="${ctxPath!}/images/mintleaf.png"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
+    <link href="${ctxPath!}/plugins/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <!-- 顶部 -->
+    <div class="layui-header">
+        <a href="./index.html" class="layui-hide-xs">
+            <div class="layui-logo" style="font-size:20px;color:white;text-shadow:1px 1px 1px #393D49;font-weight:bold">
+                <img style="border-radius: 0;margin-bottom: 5px" src="${ctxPath!}/images/mintleaf.png"
+                     class="layui-nav-img">MintLeaf-Fast
+            </div>
+        </a>
+
+        <!-- 顶部菜单 -->
+        <ul class="layui-nav layui-layout-left" lay-filter="topNav">
+            <li class="layui-nav-item">
+                <a href="javascript:;">首页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">分类搜索</a>
+            </li>
+            <li class="layui-nav-item"><span class="layui-badge-dot"></span>
+                <a href="javascript:;">数据统计</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">个人信息</a>
+            </li>
+        </ul>
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="javascript:;">
+                    <img src="${ctxPath!}/images/face.jpg" class="layui-nav-img">
+                    ${user.name!}
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;">个人资料</a></dd>
+                    <dd><a href="javascript:;">修改密码</a></dd>
+                    <dd><a id="loginOut" href="javascript:;">退了</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 内容 -->
+    <iframe src="home.html" width="100%" height="800" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+</body>
+<script>
+    layui.use('element', function () {
+        var element = layui.element;
+
+        $('#loginOut').click(function () {
+
+        });
+        element.on('nav(topNav)', function (elem) {
+            console.log(elem[0].innerText);
+            console.log(elem);
+            if (elem[0].innerText === '首页') {
+                $('iframe').attr('src', '/home.html');
+            } else if (elem[0].innerText === '分类搜索') {
+                $('iframe').attr('src', '/403.html');
+            } else if (elem[0].innerText === '数据统计') {
+                $('iframe').attr('src', '/404.html');
+            } else if (elem[0].innerText === '个人信息') {
+                $('iframe').attr('src', '/404.html');
+            }
+        });
+    });
+</script>
+
+</html>
