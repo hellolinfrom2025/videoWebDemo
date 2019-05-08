@@ -5,12 +5,10 @@ import com.github.abel533.echarts.Option;
 import com.github.abel533.echarts.Tooltip;
 import com.github.abel533.echarts.axis.CategoryAxis;
 import com.github.abel533.echarts.axis.ValueAxis;
-import com.github.abel533.echarts.code.Orient;
-import com.github.abel533.echarts.code.Position;
-import com.github.abel533.echarts.code.SelectedMode;
-import com.github.abel533.echarts.code.Trigger;
+import com.github.abel533.echarts.code.*;
 import com.github.abel533.echarts.data.PieData;
 import com.github.abel533.echarts.series.Bar;
+import com.github.abel533.echarts.series.Line;
 import com.github.abel533.echarts.series.Pie;
 import com.github.abel533.echarts.style.ItemStyle;
 import com.github.abel533.echarts.style.TextStyle;
@@ -20,6 +18,7 @@ import io.swagger.annotations.ApiOperation;
 import org.mintleaf.modules.video.dao.GraphDao;
 import org.mintleaf.modules.video.entity.Video;
 import org.mintleaf.modules.video.entity.VideoTag;
+import org.mintleaf.utils.DateUtils;
 import org.mintleaf.vo.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +58,39 @@ public class GraphController {
     }
 
     /**
+     * 获得当前日期的5天前的视频总数量给图表
+     *
+     * @return
+     */
+    @ResponseBody
+    @ApiOperation(value = "获得当前日期的5天前的视频总数量给图表", notes = "描述")
+    @RequestMapping(value = "getVideoCountToEchart.echart", method = {RequestMethod.GET})
+    public ResultMsg getVideoCountToEchart() {
+
+        String[] xAxisData = new String[5];
+        Integer[] yAxisData = new Integer[5];
+        Integer[] yAxisData2 = new Integer[5];
+        try {
+            for (int i = 0; i < xAxisData.length; i++) {
+                xAxisData[xAxisData.length - i - 1] = DateUtils.dateFormat(DateUtils.dateAddDays(null, -i), null);
+                yAxisData[xAxisData.length - i - 1] = graphDao.getVideoCountToEchart(i).size();
+                yAxisData2[xAxisData.length - i - 1] = graphDao.getVideoCountDayToEchart(i).size();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Option option = new Option();
+        option.xAxis(new CategoryAxis().data(xAxisData));
+        option.yAxis(new ValueAxis().name("总量"), new ValueAxis().name("日增长量"));
+        option.series(new Line("总量").data(yAxisData).smooth(true),
+                new Bar("日增长量").data(yAxisData2).yAxisIndex(1));
+        ResultMsg result = new ResultMsg();
+        result.setData(option);
+        return result;
+    }
+
+    /**
      * 获得视频标签给echart的饼图
      *
      * @return
@@ -69,7 +102,7 @@ public class GraphController {
 
         Option option = new Option();
         option.tooltip(new Tooltip().trigger(Trigger.item).formatter("{a} <br/>{b}: {c} ({d}%)"));
-        option.legend(new Legend().orient(Orient.vertical).x("left"));
+        option.legend(new Legend().orient(Orient.vertical).x("left").type(LegendType.scroll));
         Pie pie1 = new Pie("视频分类");
         ItemStyle label = new ItemStyle();
         label.normal(new Normal().position(Position.inside));
@@ -142,33 +175,114 @@ public class GraphController {
         }
 
         Option option = new Option();
-//        option.xAxis(new CategoryAxis().data("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"));
         option.xAxis(new CategoryAxis().data(xAxisData));
         option.yAxis(new ValueAxis());
-        Bar bar = new Bar();
-//        bar.data(320, 200, 150, 80, 70, 10, 5);
-        bar.data(yAxisData);
-        option.series(bar);
+        option.series(new Bar().data(yAxisData));
         ResultMsg result = new ResultMsg();
         result.setData(option);
         return result;
     }
 
     /**
-     * 获得视频标签给echart的饼图
+     * 获得最近一周的视频播放、下载、点赞和收藏量的前六给echart
      *
      * @return
      */
     @ResponseBody
-    @ApiOperation(value = "获得视频下载总量的前六给echart", notes = "描述")
-    @RequestMapping(value = "getVideoDownloadTop.echart", method = {RequestMethod.GET})
-    public ResultMsg getVideoDownloadTop() {
+    @ApiOperation(value = "获得最近一周的视频播放、下载、点赞和收藏量的前六给echart", notes = "描述")
+    @RequestMapping(value = "getVideoCurrHot.echart", method = {RequestMethod.GET})
+    public ResultMsg getVideoCurrHot(String type) {
+        List<VideoTag> videos = graphDao.getVideoCurrHot(type);
+        String[] xAxisData = new String[videos.size()];
+        Long[] yAxisData = new Long[videos.size()];
+        for (int i = 0; i < videos.size(); i++) {
+            xAxisData[i] = videos.get(i).getTails().get("title").toString();
+            yAxisData[i] = (Long) videos.get(i).getTails().get("value");
+        }
+
         Option option = new Option();
-        option.xAxis(new CategoryAxis().data("wo", "qu", "nian", "mai", "le", "ge", "biao"));
+        option.xAxis(new CategoryAxis().data(xAxisData));
         option.yAxis(new ValueAxis());
-        Bar bar = new Bar();
-        bar.data(220, 200, 150, 80, 70, 50, 30);
-        option.series(bar);
+        option.series(new Bar().data(yAxisData));
+        ResultMsg result = new ResultMsg();
+        result.setData(option);
+        return result;
+    }
+
+    /**
+     * 获得当前日期的5天前的用户总数量给图表
+     *
+     * @return
+     */
+    @ResponseBody
+    @ApiOperation(value = "获得当前日期的5天前的用户总数量给图表", notes = "描述")
+    @RequestMapping(value = "getUserCountToEchart.echart", method = {RequestMethod.GET})
+    public ResultMsg getUserCountToEchart() {
+
+        String[] xAxisData = new String[5];
+        Integer[] yAxisData = new Integer[5];
+        Integer[] yAxisData2 = new Integer[5];
+        try {
+            for (int i = 0; i < xAxisData.length; i++) {
+                xAxisData[xAxisData.length - i - 1] = DateUtils.dateFormat(DateUtils.dateAddDays(null, -i), null);
+                yAxisData[xAxisData.length - i - 1] = graphDao.getUserCountToEchart(i).size();
+                yAxisData2[xAxisData.length - i - 1] = graphDao.getUserCountDayToEchart(i).size();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Option option = new Option();
+        option.xAxis(new CategoryAxis().data(xAxisData));
+        option.yAxis(new ValueAxis().name("总量"), new ValueAxis().name("日增长量"));
+        option.series(new Line("总量").data(yAxisData).smooth(true),
+                new Bar("日增长量").data(yAxisData2).yAxisIndex(1));
+        ResultMsg result = new ResultMsg();
+        result.setData(option);
+        return result;
+    }
+
+    /**
+     * 最近5天用户活跃趋势统计图
+     *
+     * @return
+     */
+    @ResponseBody
+    @ApiOperation(value = "最近5天用户活跃趋势统计图", notes = "描述")
+    @RequestMapping(value = "getUserActiveToEchart.echart", method = {RequestMethod.GET})
+    public ResultMsg getUserActiveToEchart() {
+
+        String[] xAxisData = new String[5];
+        Integer[] yAxisData = new Integer[5];
+        Integer[] yAxisData2 = new Integer[5];
+        Integer[] yAxisData3 = new Integer[5];
+        Integer[] yAxisData4 = new Integer[5];
+        try {
+            for (int i = 0; i < xAxisData.length; i++) {
+                xAxisData[xAxisData.length - i - 1] = DateUtils.dateFormat(DateUtils.dateAddDays(null, -i), null);
+                for (int j = 1; j < 5; j++) {
+                    if (j == 1) {
+                        yAxisData[xAxisData.length - i - 1] = graphDao.getUserActiveToEchart(String.valueOf(j), i).size();
+                    } else if (j == 2) {
+                        yAxisData2[xAxisData.length - i - 1] = graphDao.getUserActiveToEchart(String.valueOf(j), i).size();
+                    } else if (j == 3) {
+                        yAxisData3[xAxisData.length - i - 1] = graphDao.getUserActiveToEchart(String.valueOf(j), i).size();
+                    } else if (j == 4) {
+                        yAxisData4[xAxisData.length - i - 1] = graphDao.getUserActiveToEchart(String.valueOf(j), i).size();
+                    }
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Option option = new Option();
+        option.xAxis(new CategoryAxis().data(xAxisData).boundaryGap(false));
+        option.yAxis(new ValueAxis());
+        option.series(new Line("播放").data(yAxisData).smooth(true),
+                new Line("下载").data(yAxisData2).smooth(true),
+                new Line("收藏").data(yAxisData3).smooth(true),
+                new Line("点赞").data(yAxisData4).smooth(true));
         ResultMsg result = new ResultMsg();
         result.setData(option);
         return result;

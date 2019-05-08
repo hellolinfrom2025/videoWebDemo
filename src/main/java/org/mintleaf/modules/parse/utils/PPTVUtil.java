@@ -18,7 +18,7 @@ public class PPTVUtil {
 	private static final String APP_KEY = "V8oo0Or1f047NaiMTxK123LMFuINTNeI";
 	private static final String SERVER_KEY = "qqqqqww";
 	private static final Long DELTA = 2654435769L;
-	private static final String HEX = "0123456789abcdef";
+	private static final String HEX = "0123456789abcdef0";
 	private static final String URL = "http://web-play.pptv.com";
 	
 	public static Video getVideo(String url) {

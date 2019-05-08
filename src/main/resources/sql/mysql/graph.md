@@ -1,3 +1,17 @@
+getVideoCountToEchart
+===
+* 获得当前日期的某天前的视频总数量给图表
+
+select title from video 
+where date_sub(curdate(),interval #day# day)>=date(create_time)
+
+getVideoCountDayToEchart
+===
+* 获得当前日期的视频日增长量给图表
+
+select title from video 
+where date_sub(curdate(),interval #day# day)=date(create_time)
+
 getTagToEchart
 ===
 * 获得视频分类的数量给图表
@@ -38,3 +52,38 @@ getVideoCollectTop
 * 获得视频收藏总量的前六给echart
 
 select title,collect_count from video  order by collect_count desc limit 6
+
+getVideoCurrHot
+===
+* 获得最近一周的视频播放、下载、点赞和收藏量的前六给echart
+
+select r.operation_type,v.title,count(title) value
+from operation_record r,video v
+where r.video_id=v.id
+  and operation_type = #type#
+  and DATE_SUB(CURDATE(), INTERVAL 6 DAY) <=date(time)
+group by v.title
+order by value desc limit 6
+
+getUserCountToEchart
+===
+* 获得当前日期的某天前的用户总数量给图表
+
+select name from core_user 
+where date_sub(curdate(),interval #day# day)>=date(createtime)
+
+getUserCountDayToEchart
+===
+* 获得当前日期的某天前的用户日增长数量给图表
+
+select name from core_user 
+where date_sub(curdate(),interval #day# day)=date(createtime)
+
+getUserActiveToEchart
+===
+
+* 获得当前日期的某天前的用户日增长数量给图表
+
+select id from operation_record 
+where operation_type=#type# 
+and date_sub(curdate(),interval #day# day)=date(time)
