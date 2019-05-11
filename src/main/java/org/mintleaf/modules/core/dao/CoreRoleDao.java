@@ -16,6 +16,7 @@ import java.util.List;
 @Component
 @SqlResource("coreRole")
 public interface CoreRoleDao extends BaseMapper<CoreRole> {
-    public List<CoreRole> findRoleByIdSample(@Param("id") long id);
+    List<CoreRole> findRoleByIdSample(@Param("id") long id);
     int deleteByIds(@Param("ids") String[] ids);
+    List<CoreRole> sample(@Param("name") String name);
 }

@@ -75,7 +75,7 @@ public class Realm extends AuthorizingRealm {
     //认证
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-
+        System.out.println("执行认证逻辑。。。。。。。。");
         //获得当前用户的用户名
         String username = (String) authenticationToken.getPrincipal();
 
@@ -85,10 +85,7 @@ public class Realm extends AuthorizingRealm {
             throw new UnknownAccountException(
                     "没有在本系统中找到对应的用户信息。");
         }
-
-
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(coreUser.getName(), coreUser.getPsw(),getName());
         return info;
     }
-
 }

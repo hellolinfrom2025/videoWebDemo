@@ -128,7 +128,7 @@ public class IndexController {
         String password = request.getParameter("password");
 //        CoreUser coreUser = new CoreUser();
 //        coreUser.setUsercode(usercode);
-////      coreUser.setPassword(password);
+//        coreUser.setPassword(password);
 //        CoreUser end=coreUserDao.sample(coreUser.getUsercode());
 //        if (end!=null) {
 //            session.setAttribute("user", coreUser.getUsercode());
@@ -136,9 +136,14 @@ public class IndexController {
 //        } else {
 //            return ResultMsg.fail();
 //        }
-        //用户名密码校验
-        UsernamePasswordToken token = new UsernamePasswordToken(name, MD5Util.MD5(password));
+        /*
+         * 用户名密码校验
+         */
+        //1.获取subject
         Subject subject = SecurityUtils.getSubject();
+        //2.封装用户数据
+        UsernamePasswordToken token = new UsernamePasswordToken(name, MD5Util.MD5(password));
+        //3.执行登录方法
         try {
             subject.login(token);
         } catch (Exception e) {

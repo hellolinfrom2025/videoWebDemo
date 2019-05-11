@@ -3,10 +3,13 @@ package org.mintleaf.modules.videowebfront.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.mintleaf.modules.core.dao.CoreMenuDao;
+import org.mintleaf.modules.core.dao.CoreRoleDao;
 import org.mintleaf.modules.core.dao.CoreUserDao;
+import org.mintleaf.modules.core.dao.CoreUserRoleDao;
+import org.mintleaf.modules.core.entity.CoreRole;
+import org.mintleaf.modules.core.entity.CoreUser;
+import org.mintleaf.modules.core.entity.CoreUserRole;
 import org.mintleaf.utils.MD5Util;
 import org.mintleaf.vo.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import static org.mintleaf.vo.ResultMsg.fail;
 import static org.mintleaf.vo.ResultMsg.ok;
@@ -34,34 +36,26 @@ import static org.mintleaf.vo.ResultMsg.ok;
 public class FrontIndexController {
 
     @Autowired
-    HttpSession session;
-
+    CoreUserDao userDao;
     @Autowired
-    CoreUserDao coreUserDao;
-
+    CoreUserRoleDao userRoleDao;
     @Autowired
-    CoreMenuDao coreMenuDao;
+    CoreRoleDao roleDao;
+    @Autowired
+    CoreMenuDao menuDao;
 
     /**
      * 进入前台首页
      * @return
      */
-//  @RequiresRoles("超级用户")
     @ApiOperation(value="进入前台首页", notes="描述")
     @RequestMapping(value="index.html",method = {RequestMethod.GET})
     public ModelAndView index() {
         ModelAndView view =new ModelAndView("modules/videowebfront/index.html");
-        return view;
-    }
-
-    /**
-     * 进入登陆页面
-     * @return
-     */
-    @ApiOperation(value="进入登陆页面", notes="描述")
-    @RequestMapping(value="login.html",method = {RequestMethod.GET})
-    public ModelAndView login(){
-        ModelAndView view =new ModelAndView("login.html");
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        System.out.print(username);
+        CoreUser user=userDao.sample(username);
+        view.addObject("user", user);
         return view;
     }
 
@@ -72,45 +66,8 @@ public class FrontIndexController {
     @ApiOperation(value="进入前台首页面", notes="描述")
     @RequestMapping(value="home.html",method = {RequestMethod.GET})
     public ModelAndView home(){
-        ModelAndView view =new ModelAndView("home.html");
+        ModelAndView view =new ModelAndView("modules/videowebfront/home.html");
         return view;
-    }
-
-    /**
-     * 登陆操作
-     * @param request
-     * @return
-     */
-    @ApiOperation(value="登陆操作", notes="描述")
-    @RequestMapping(value = "login.do", method = RequestMethod.POST)
-    @ResponseBody
-    public ResultMsg loginDo(HttpServletRequest request){
-        //验证码校验
-//        if (!CaptchaUtils.checkVerifyCode(request)) {
-//            return fail("验证码有误！");
-//        }
-        String name = request.getParameter("name");
-        String password = request.getParameter("password");
-//        CoreUser coreUser = new CoreUser();
-//        coreUser.setUsercode(usercode);
-////      coreUser.setPassword(password);
-//        CoreUser end=coreUserDao.sample(coreUser.getUsercode());
-//        if (end!=null) {
-//            session.setAttribute("user", coreUser.getUsercode());
-//            return ResultMsg.ok(url);
-//        } else {
-//            return ResultMsg.fail();
-//        }
-        //用户名密码校验
-        UsernamePasswordToken token = new UsernamePasswordToken(name, MD5Util.MD5(password));
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.login(token);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return fail("用户名或密码错误！");
-        }
-        return ok();
     }
 
     /**
@@ -121,10 +78,61 @@ public class FrontIndexController {
     @RequestMapping(value = "loginOut.do", method ={RequestMethod.GET,RequestMethod.POST})
     public ModelAndView loginOut() {
         ModelAndView view = new ModelAndView();
-        view.setViewName("/login.html");
+        view.setViewName("redirect:/videoWebFront/index.html");
         SecurityUtils.getSubject().logout();
         return view;
     }
 
+    /**
+     * 注册用户
+     * @param user
+     * @return
+     */
+    @ApiOperation(value="注册用户", notes="描述")
+    @RequestMapping(value = "singUp.do",method = {RequestMethod.POST})
+    @ResponseBody
+    public ResultMsg singUp(CoreUser user) {
+        //向用户表插入新添加用户信息
+        user.setPsw(MD5Util.MD5(user.getPsw()));
+        user.setCreator(1);
+        userDao.insertTemplate(user);
+        //根据添加的用户名查出单条数据
+        CoreUser newUser=userDao.sample(user.getName());
+        //向用户角色关系表插入名为普通用户的角色
+        List<CoreRole> roles = roleDao.sample("普通用户");
+        for (CoreRole role : roles) {
+            CoreUserRole ur = new CoreUserRole();
+            ur.setUserid(newUser.getId());
+            ur.setRoleid( Integer.valueOf(role.getId()));
+            userRoleDao.insertTemplate(ur);
+        }
+        ResultMsg result=new ResultMsg();
+        result.setData(user);
+        result.setMsg("注册成功");
+        return result;
+    }
 
+    /**
+     * 忘记用户密码操作
+     * @param user
+     * @return
+     */
+    @ApiOperation(value="忘记用户密码操作", notes="描述")
+    @RequestMapping(value = "/forgPass.do", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultMsg forgPass(CoreUser user) {
+        if (user.getPsw() == null || user.getPsw().length() <= 0 ) {
+            return  fail("密码都不能为空");
+        }
+        CoreUser u = new CoreUser();
+        u.setEmail(user.getEmail());
+        CoreUser one = userDao.templateOne(u);
+        if (one == null) {
+            return  fail("邮箱不存在！");
+        }else {
+            one.setPsw(MD5Util.MD5(user.getPsw()));
+            userDao.updateTemplateById(one);
+        }
+        return ok();
+    }
 }

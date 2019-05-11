@@ -21,11 +21,14 @@ public class SessionInterceptor implements HandlerInterceptor
         {
             return true;
         }
+        if( request.getRequestURI().equals("/videoWebFront/index.html"))
+        {
+            return true;
+        }
         //验证session是否存在
         Object obj = request.getSession().getAttribute("user");
         if(obj == null)
         {
-
             request.getSession().setAttribute("return", request.getRequestURI());
             response.sendRedirect("/login.html");
             return false;

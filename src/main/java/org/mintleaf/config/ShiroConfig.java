@@ -1,6 +1,5 @@
 package org.mintleaf.config;
 
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.mintleaf.common.MyExceptionResolver;
@@ -21,46 +20,43 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setSecurityManager(securityManager());
         //拦截器.
-        Map<String, String> filterMap = new LinkedHashMap<>();
-        // 配置不会被拦截的链接 顺序判断
-
-        filterMap.put("/css/**", "anon");
-        filterMap.put("/images/**", "anon");
-        filterMap.put("/script/**", "anon");
-        filterMap.put("/plugins/**", "anon");
-        filterMap.put("/login.do", "anon");
-        filterMap.put("/captcha/getCaptcha.jpg", "anon");
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        /*
+         *配置不会被拦截的链接 顺序判断
+         *过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
+         *authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问
+         */
+        //资源目录
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/images/**", "anon");
+        filterChainDefinitionMap.put("/scripts/**", "anon");
+        filterChainDefinitionMap.put("/plugins/**", "anon");
+        //获得验证码
+        filterChainDefinitionMap.put("/captcha/getCaptcha.jpg", "anon");
         //文件上传
-        filterMap.put("/upload/**", "anon");
-        //视频播放
-        filterMap.put("/stshipinb/player.html", "anon");
-        filterMap.put("/stshipinb/ckplayer.html", "anon");
-        filterMap.put("/stshipinb/hlsplayer.html", "anon");
-
+        filterChainDefinitionMap.put("/upload/**", "anon");
+        //视频网站前后台页面登录
+        filterChainDefinitionMap.put("/login.html", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/index.html", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/home.html", "anon");
+        filterChainDefinitionMap.put("/login.do", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/singUp.do", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/forgPass.do", "anon");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterMap.put("/loginOut.do", "logout");
+        filterChainDefinitionMap.put("/logout.do", "logout");
+        filterChainDefinitionMap.put("/videoWebFront/loginOut.do", "logout");
 
-//        //测试授权过滤器
-//        filterMap.put("/*/add.html","perms[user:add]");
-//        filterMap.put("/*/delete.do","perms[user:delete]");
-
-        //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
-        //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-        filterMap.put("/**", "authc");
+        filterChainDefinitionMap.put("/**", "authc");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/login.html");
-
-
-        // 登录成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/index.html");
-
+        shiroFilterFactoryBean.setLoginUrl("/videoWebFront/index.html");
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403.html");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
+
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 
@@ -78,8 +74,8 @@ public class ShiroConfig {
     }
 
     @Bean
-    public HandlerExceptionResolver solver(){
-        HandlerExceptionResolver handlerExceptionResolver=new MyExceptionResolver();
+    public HandlerExceptionResolver solver() {
+        HandlerExceptionResolver handlerExceptionResolver = new MyExceptionResolver();
         return handlerExceptionResolver;
     }
 
