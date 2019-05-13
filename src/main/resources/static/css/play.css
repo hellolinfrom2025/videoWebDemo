@@ -6,48 +6,22 @@
 .right-block {
     margin-top: 20px;
 }
-
-/*搜索块*/
-.search-block {
-    height: 200px;
+.video-box{
+    margin-top: 20px;
+    height: 700px;
+}
+.comment-box{
+    /*margin-top: 30px;*/
+    background-color: #4d4d4d;
+    height: 500px;
 }
 
-.search-block img {
-    height: 100%;
-    width: 100%;
-    z-index: 0;
-}
-
-.search-block form {
-    position: absolute;
-    width: 400px;
-    height: 100px;
-    z-index: 10;
-    bottom: 27px;
-    left: 55px;
-    right: 0;
-    margin: auto;
-}
-
-.search-block input {
-    width: 300px;
-}
-
-.carousel-block {
-    margin-top: 50px;
-    height: auto;
-}
-
-.msg-block {
-    margin-top: 50px;
-    height: 300px;
-}
-
-.week-hot-top {
+.similar-video {
+    margin-top: 30px;
     height: 600px;
 }
 
-.new-upload {
+.week-hot-top{
     margin-top: 80px;
     height: 600px;
 }

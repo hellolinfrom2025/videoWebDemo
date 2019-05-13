@@ -57,12 +57,12 @@ getVideoCurrHot
 ===
 * 获得最近一周的视频播放、下载、点赞和收藏量的前六给echart
 
-select r.operation_type,v.title,count(title) value
+select r.operation_type,v.title,r.video_id,v.cover,count(title) value
 from operation_record r,video v
 where r.video_id=v.id
   and operation_type = #type#
   and DATE_SUB(CURDATE(), INTERVAL 6 DAY) <=date(time)
-group by v.title
+group by v.title,v.id,v.cover
 order by value desc limit 6
 
 getUserCountToEchart

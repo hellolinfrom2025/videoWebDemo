@@ -11,11 +11,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="format-detection" content="telephone=no"/>
-    <link href="${ctxPath!}/plugins/pace/themes/pink/pace-theme-flash.css" rel="stylesheet">
     <link href="${ctxPath!}/css/home.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
     <script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.all.js"></script>
 </head>
 <body>
 <div class="layui-fluid">
@@ -66,7 +65,7 @@
                             </div>
                             <div class="layui-tab-item ">
                             </div>
-                            <div class="layui-tab-item ">
+                            <div class="layui-tab-item " style="height: 300px">
                                 <p><a href="https://www.layui.com/" target="_blank">layui前端框架</a></p>
                                 <p><a href="https://gitee.com/mintleaf/mintleaf-fast#only_comment_project" target="_blank">后台基础开发平台</a></p>
                                 <p><a href="https://www.wueasy.com/" target="_blank">wueasy-fs-layui</a></p>
@@ -86,12 +85,12 @@
         <div class="layui-col-md-offset1 layui-col-md3 right-block">
             <div class="layui-row">
                 <div class="layui-col-md12 week-hot-top">
-                    <div class="layui-tab">
-                    </div>
+                    <div class="table-title">本周最热</div>
+                    <table id="hotvideo" lay-filter="weekhot"></table>
                 </div>
                 <div class="layui-col-md12 new-upload">
-                    <div class="layui-tab">
-                    </div>
+                    <div class="table-title">最新上传</div>
+                    <table id="newvideo" lay-filter="newupload"></table>
                 </div>
             </div>
         </div>

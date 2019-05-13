@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
     <link href="${ctxPath!}/plugins/fontawesome/css/font-awesome.css" rel="stylesheet">
     <link href="${ctxPath!}/css/userlogin.css" rel="stylesheet">
-    <link href="${ctxPath!}/css/userlogin.css" rel="stylesheet">
     <script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
 </head>
@@ -68,7 +67,7 @@
     }
     %>
     <!-- 内容 -->
-    <iframe src="/videoWebFront/home.html" width="100%" height="800" frameborder="0" scrolling="no"></iframe>
+    <iframe src="/videoWebFront/index/home.html" width="100%" height="2500" frameborder="0" scrolling="no"></iframe>
 
 </div>
 <!--登录弹框模板-->
@@ -214,9 +213,9 @@
             layer = parent.layer === undefined ? layui.layer : parent.layer;
         var urls = {
             login: "/login.do",
-            loginOut: '/videoWebFront/loginOut.do',
-            singUp: '/videoWebFront/singUp.do',
-            forgPass: '/videoWebFront/forgPass.do',
+            loginOut: '/videoWebFront/index/loginOut.do',
+            singUp: '/videoWebFront/index/singUp.do',
+            forgPass: '/videoWebFront/index/forgPass.do',
         };
         var fun = {
             singinOpen: function () {
@@ -362,7 +361,7 @@
         //导航栏监听
         element.on('nav(topNav)', function (elem) {
             if (elem[0].innerText === '首页') {
-                $('iframe').attr('src', '/videoWebFront/home.html');
+                $('iframe').attr('src', '/videoWebFront/index/home.html');
             } else if (elem[0].innerText === '分类搜索') {
                 $('iframe').attr('src', '/403.html');
             } else if (elem[0].innerText === '数据统计') {
