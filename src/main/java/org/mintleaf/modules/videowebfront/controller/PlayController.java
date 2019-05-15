@@ -2,6 +2,9 @@ package org.mintleaf.modules.videowebfront.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.mintleaf.modules.core.dao.CoreUserDao;
+import org.mintleaf.modules.core.entity.CoreUser;
 import org.mintleaf.modules.video.dao.VideoDao;
 import org.mintleaf.modules.video.entity.Video;
 import org.mintleaf.modules.video.entity.VideoTag;
@@ -29,6 +32,8 @@ import java.util.List;
 public class PlayController {
 
     @Autowired
+    CoreUserDao userDao;
+    @Autowired
     VideoDao videoDao;
     @Autowired
     RecommendedDao recommendedDao;
@@ -43,6 +48,9 @@ public class PlayController {
         ModelAndView view =new ModelAndView("modules/videowebfront/play.html");
         Video video = videoDao.single(vid);
         view.addObject("video", video);
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        CoreUser user=userDao.sample(username);
+        view.addObject("user", user);
         return view;
     }
 
@@ -65,4 +73,5 @@ public class PlayController {
         result.setData(list);
         return result;
     }
+
 }

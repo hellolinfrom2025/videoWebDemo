@@ -1,13 +1,17 @@
-layui.use(['table', 'element', 'form', 'layer'], function () {
+layui.use(['table', 'element', 'form', 'layer','laytpl'], function () {
     var element = layui.element, form = layui.form, $ = layui.jquery, layer = layui.layer
-        , table = layui.table;
+        , table = layui.table, laytpl = layui.laytpl;
 
     var fun = {
         getSimilarVideoTableData: function () {
             var attr = $('#videoId').attr('value');
             $.getJSON('/videoWebFront/play/getSimilarVideo.do?vid='+attr, function (res) {
                 if (res.success) {
-                    fun.similarVideoTable(res.data);
+                    var viewHtml ='';
+                    $.each( res.data, function(i, d){
+                        viewHtml += fun.initRecommendTpl(d);
+                    });
+                    $('#similarVideo').html(viewHtml);
                 } else {
                     return null;
                 }
@@ -16,55 +20,26 @@ layui.use(['table', 'element', 'form', 'layer'], function () {
         getHotVideoTableData: function () {
             $.getJSON('/videoWebFront/index/getHotVideo.do', function (res) {
                 if (res.success) {
-                    fun.hotVideoTable(res.data);
+                    var viewHtml ='';
+                    $.each( res.data, function(i, d){
+                        viewHtml += fun.initRecommendTpl(d);
+                    });
+                    $('#weekHot').html(viewHtml);
                 } else {
                     return null;
                 }
             });
         },
-        similarVideoTable: function (data) {
-            //执行渲染
-            table.render({
-                elem: '#similarvideo',
-                data: data,
-                cols: [[
-                    {type: 'numbers', width: 40},
-                    {
-                        field: 'cover', width: 120, templet:
-                            '<div><img src="{{ d.cover}}" width="45px" height="65px"></div>'
-                    },
-                    {
-                        field: 'title', width: 260,
-                        templet:
-                            '<div><a href="/videoWebFront/play/play.html?vid={{ d.id}}">{{ d.title}}</a><p>播放量：{{ d.playCount}}</p></div>'
-                    },
-                    {field: 'playCount', hide: true}
-                ]],
-                page: false,
-                skin: 'nob',
+        initRecommendTpl:function(video){
+            var tplHtml = '<dl>' +
+                '<dt><a href="/videoWebFront/play/play.html?vid={{d.id}}"><img src="{{d.cover}}"/></a></dt>' +
+                '<dd><a href="/videoWebFront/play/play.html?vid={{d.id}}"><h3>{{d.title}}</h3>' +
+                '<p>播放量：{{d.playCount}}</p>' +
+                '</a></dd></dl>';
+            var string =  laytpl(tplHtml).render({
+                id: video.id,url:video.url,cover:video.cover,title:video.title,playCount:video.playCount
             });
-        },
-        hotVideoTable: function (data) {
-            //执行渲染
-            table.render({
-                elem: '#hotvideo',
-                data: data,
-                cols: [[
-                    {type: 'numbers', width: 40},
-                    {
-                        field: 'cover', width: 120, templet:
-                            '<div><img src="{{ d.cover}}" width="45px" height="65px"></div>'
-                    },
-                    {
-                        field: 'title', width: 260,
-                        templet:
-                            '<div><a href="/videoWebFront/play.html?vid={{ d.id}}">{{ d.title}}</a><p>播放量：{{ d.playCount}}</p></div>'
-                    },
-                    {field: 'playCount', hide: true}
-                ]],
-                page: false,
-                skin: 'nob',
-            });
+            return string;
         },
         videoPlay: function () {
             var player, curr = 0, vlist_1, vlist_2, vlist_3, vlist_4;
@@ -88,7 +63,7 @@ layui.use(['table', 'element', 'form', 'layer'], function () {
             function endedHandle() {
                 var newUrl = "";
                 curr++;
-                player.loadByUrl(vlist_3[curr]);
+                player.loadByUrl(vlist_2[curr]);
             }
 
             player.on("ended", endedHandle);
@@ -109,7 +84,7 @@ layui.use(['table', 'element', 'form', 'layer'], function () {
                                 vlist_4 = d.urlSegms;
                             }
                         });
-                        player.loadByUrl(vlist_3[0]);
+                        player.loadByUrl(vlist_2[0]);
                     }
                 },
                 error: function (e) {

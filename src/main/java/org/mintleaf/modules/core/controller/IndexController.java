@@ -126,16 +126,6 @@ public class IndexController {
 //        }
         String name = request.getParameter("name");
         String password = request.getParameter("password");
-//        CoreUser coreUser = new CoreUser();
-//        coreUser.setUsercode(usercode);
-//        coreUser.setPassword(password);
-//        CoreUser end=coreUserDao.sample(coreUser.getUsercode());
-//        if (end!=null) {
-//            session.setAttribute("user", coreUser.getUsercode());
-//            return ResultMsg.ok(url);
-//        } else {
-//            return ResultMsg.fail();
-//        }
         /*
          * 用户名密码校验
          */
@@ -146,6 +136,9 @@ public class IndexController {
         //3.执行登录方法
         try {
             subject.login(token);
+            String username = (String) SecurityUtils.getSubject().getPrincipal();
+            CoreUser user=coreUserDao.sample(username);
+            session.setAttribute("user", user);
         } catch (Exception e) {
             e.printStackTrace();
             return fail("用户名或密码错误！");
@@ -163,6 +156,7 @@ public class IndexController {
         ModelAndView view = new ModelAndView();
         view.setViewName("/login.html");
         SecurityUtils.getSubject().logout();
+//        session.removeAttribute("user");
         return view;
     }
 

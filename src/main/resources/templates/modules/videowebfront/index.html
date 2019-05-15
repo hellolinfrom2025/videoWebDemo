@@ -1,383 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>videoWebDemo</title>
-    <%include("/meta.html"){}%>
-    <link rel="shortcut icon" href="${ctxPath!}/images/mintleaf.png"/>
+    <meta charset="utf-8">
+    <title>你好啊！</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="fly,layui,前端社区">
+    <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
     <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
-    <link href="${ctxPath!}/plugins/fontawesome/css/font-awesome.css" rel="stylesheet">
-    <link href="${ctxPath!}/css/userlogin.css" rel="stylesheet">
-    <script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.js"></script>
+    <link rel="stylesheet" href="${ctxPath!}/css/front/global.css">
 </head>
 <body>
-<div class="layui-layout layui-layout-admin">
-    <!-- 顶部 -->
-    <div class="layui-header">
-        <a href="./index.html" class="layui-hide-xs">
-            <div class="layui-logo" style="font-size:20px;color:white;text-shadow:1px 1px 1px #393D49;font-weight:bold">
-                <img style="border-radius: 0;margin-bottom: 5px" src="${ctxPath!}/images/mintleaf.png"
-                     class="layui-nav-img">MintLeaf-Fast
-            </div>
-        </a>
-        <!-- 顶部菜单 -->
-        <ul class="layui-nav layui-layout-left" lay-filter="topNav">
-            <li class="layui-nav-item">
-                <a href="javascript:;">首页</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">分类搜索</a>
-            </li>
-            <li class="layui-nav-item"><span class="layui-badge-dot"></span>
-                <a href="javascript:;">数据统计</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">个人信息</a>
-            </li>
-        </ul>
-        <ul class="layui-nav layui-layout-right">
-            <% if(so.isGuest()){%>
-                <li class="layui-nav-item">
-                    <button id="login" class="layui-btn layui-btn-radius">登录</button>
-                </li>
-            <%}%>
-            <% if(so.isUser()){%>
-                <li class="layui-nav-item layui-hide-xs">
-                    <a href="javascript:;">
-                        <img src="${ctxPath!}/images/face.jpg" class="layui-nav-img">
-                        ${user.name!}
-                    </a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">个人资料</a></dd>
-                        <dd><a href="javascript:;">修改密码</a></dd>
-                        <dd><a id="loginOut" href="/videoWebFront/loginOut.do">退了</a></dd>
-                    </dl>
-                </li>
-            <%}%>
+<!--头部导航栏，有登录注册功能-->
+<%include("/modules/videowebfront/common/header.html"){}%>
 
-        </ul>
-    </div>
-    <%
-    var loginType;
-    if(so.isGuest()){
-    loginType = 'guest';
-    }
-    if(so.isUser()){
-    loginType = 'user';
-    }
-    %>
-    <!-- 内容 -->
-    <iframe src="/videoWebFront/index/home.html" width="100%" height="2500" frameborder="0" scrolling="no"></iframe>
-
-</div>
-<!--登录弹框模板-->
-<script id="singinhtml" type="text/html">
-    <div class="user-login user-display-show" id="user-singin" style="display: none;">
-        <div class="user-login-main">
-            <div class="user-login-box user-login-header">
-                <h2>hi,又来啦！</h2>
-                <p>社交账号登入暂未开通^-^</p>
-            </div>
-            <div class="user-login-box user-login-body layui-form">
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-username"
-                           for="user-singin-username"></label>
-                    <input type="text" name="username" id="user-singin-username" lay-verify="required"
-                           placeholder="用户名" class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-password"
-                           for="user-singin-password"></label>
-                    <input type="password" name="password" id="user-singin-password" lay-verify="required"
-                           placeholder="密码" class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-row">
-                        <div class="layui-col-xs7">
-                            <label class="user-login-icon layui-icon layui-icon-vercode"
-                                   for="user-singin-vercode"></label>
-                            <input type="text" name="vercode" id="user-singin-vercode" lay-verify="required"
-                                   placeholder="图形验证码" class="layui-input">
+<div class="layui-container" style="margin-top: 15px">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <div class="fly-panel my-fly-search-block">
+                <img src="${ctxPath!}/images/banner5.jpg">
+                <form class="layui-form ">
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" name="title" lay-verify="required"
+                                   placeholder="想找什么" autocomplete="off" class="layui-input">
                         </div>
-                        <div class="layui-col-xs5">
-                            <div style="margin-left: 10px;">
-                                <img src="/captcha/getCaptcha.jpg" alt="点击更换" title="点击更换"
-                                     onclick="refresh()" class="user-login-codeimg" id="captcha_img">
-                            </div>
+                        <button class="layui-btn " lay-submit lay-filter="formDemo">
+                            <i class="layui-icon layui-icon-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="fly-panel carousel-block" style="margin-bottom: 0;">
+                <div class="layui-carousel" id="test1">
+                    <div carousel-item>
+                        <div><a href="javascript:;"><img src="${ctxPath!}/images/banner5.jpg" alt="load failure"></a>
+                        </div>
+                        <div><a href="javascript:;"><img src="${ctxPath!}/images/login-bg.jpg" alt="load failure"></a>
+                        </div>
+                        <div><a href="javascript:;"><img src="${ctxPath!}/images/login-bg1.jpg" alt="load failure"></a>
+                        </div>
+                        <div><a href="javascript:;"><img src="${ctxPath!}/images/login-bg2.jpg" alt="load failure"></a>
+                        </div>
+                        <div><a href="javascript:;"><img src="${ctxPath!}/images/login-bg3.jpg" alt="load failure"></a>
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item" style="margin-bottom: 20px;">
-                    <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
-                    <a name="forgpass" class="user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
-                </div>
-                <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="user-login-submit">登 入</button>
-                </div>
-                <div class="layui-trans layui-form-item user-login-other">
-                    <label>社交账号登入</label>
-                    <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
-                    <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
-                    <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
-                    <a name="singup" class="user-jump-change layadmin-link">注册帐号</a>
+            </div>
+            <div class="fly-panel " style="margin-bottom: 0;">
+                <div class="layui-tab layui-tab-card" lay-filter="msg">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">网站公告</li>
+                        <li>留言</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <blockquote class="layui-elem-quote">
+                                <span style="color: #FF5722;">videoWebDemo</span>
+                                是一个基于SpringBoot2.0开发的，轻量级的Java视频点播网站。
+                                许多功能还处于初级阶段，如视频分集暂未实现。但是我也会在接下来的时间里，
+                                完善或增加功能，提高实用性。
+                            </blockquote>
+                        </div>
+                        <div class="layui-tab-item ">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</script>
-<!--注册弹框模板-->
-<script id="singuphtml" type="text/html">
-    <div class="user-login user-display-show" id="user-singup" style="display: none;">
-        <div class="user-login-main">
-            <div class="user-login-box user-login-header">
-                <h2>起个牛逼的名字</h2>
-                <p>邮箱是你找回密码的唯一途径，请记住哈！</p>
-            </div>
-            <div class="user-login-box user-login-body layui-form">
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-username" for="user-singup-nickname"></label>
-                    <input type="text" name="nickname" id="user-singup-nickname" lay-verify="nickname" placeholder="昵称"
-                           class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-password" for="user-singup-password"></label>
-                    <input type="password" name="password" id="user-singup-password" lay-verify="pass" placeholder="密码"
-                           class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-password" for="user-singup-repass"></label>
-                    <input type="password" name="repass" id="user-singup-repass" lay-verify="required"
-                           placeholder="确认密码" class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-cellphone" for="user-singup-email"></label>
-                    <input type="text" name="email" id="user-singup-email" lay-verify="email" placeholder="邮箱"
-                           class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
-                </div>
-                <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="user-reg-submit">注 册</button>
-                </div>
-                <div class="layui-trans layui-form-item user-login-other">
-                    <a name="singin" class="user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
+        <div class="layui-col-md4">
+            <div class="fly-panel my-fly-list-recommend">
+                <h3 class="fly-panel-title">本周热门</h3>
+                <div id="weekHot">
+                    <!--这是放数据，js控制-->
                 </div>
             </div>
-        </div>
-    </div>
-</script>
-<!--忘记密码弹框模板-->
-<script id="forgpasshtml" type="text/html">
-    <div class="user-login user-display-show" id="user-forgpass" style="display: none;">
-        <div class="user-login-main">
-            <div class="user-login-box user-login-header">
-                <h2>设置新密码</h2>
-            </div>
-            <div class="user-login-box user-login-body layui-form">
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-cellphone" for="user-forgpass-email"></label>
-                    <input type="text" name="email" id="user-forgpass-email" lay-verify="email" placeholder="邮箱"
-                           class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-password" for="user-forgpass-password"></label>
-                    <input type="password" name="password" id="user-forgpass-password" lay-verify="pass" placeholder="密码"
-                           class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <label class="user-login-icon layui-icon layui-icon-password" for="user-forgpass-repass"></label>
-                    <input type="password" name="repass" id="user-forgpass-repass" lay-verify="required"
-                           placeholder="确认密码" class="layui-input">
-                </div>
-                <div class="layui-form-item">
-                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="user-forgpass-submit">确 认</button>
-                </div>
-                <div class="layui-trans layui-form-item user-login-other">
-                    <a name="singin" class="user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
+            <div class="fly-panel my-fly-list-recommend">
+                <h3 class="fly-panel-title">最新上传</h3>
+                <div id="newUpload">
+                    <!--这是放数据，js控制-->
                 </div>
             </div>
-        </div>
-    </div>
-</script>
 
+
+            <div class="fly-panel fly-link">
+                <h3 class="fly-panel-title">友情链接</h3>
+                <dl class="fly-panel-main">
+                    <dd><a href="https://www.layui.com/" target="_blank">layui前端框架</a>
+                    <dd>
+                    <dd><a href="https://gitee.com/mintleaf/mintleaf-fast#only_comment_project"
+                           target="_blank">后台基础开发平台</a>
+                    <dd>
+                    <dd><a href="https://www.wueasy.com/" target="_blank">wueasy-fs-layui</a>
+                    <dd>
+                    <dd><a href="https://www.echartsjs.com/" target="_blank">echartsjs图表</a>
+                    <dd>
+                    <dd>
+                        <a href="https://player.alicdn.com/aliplayer/index.html" target="_blank">Aliplayer</a>
+                    <dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<%include("/modules/videowebfront/common/footer.html"){}%>
+<script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.all.js"></script>
+<script type="text/javascript" src="${ctxPath!}/scripts/front/header.js"></script>
+<script type="text/javascript" src="${ctxPath!}/scripts/front/index.js"></script>
 </body>
-<script>
-    //验证码刷新
-    function refresh() {
-        document.getElementById('captcha_img').src = "/captcha/getCaptcha.jpg?" + Math.random();
-    }
-
-    layui.use(['element', 'form', 'layer'], function () {
-        var element = layui.element, form = layui.form, $ = layui.jquery,
-            layer = parent.layer === undefined ? layui.layer : parent.layer;
-        var urls = {
-            login: "/login.do",
-            loginOut: '/videoWebFront/index/loginOut.do',
-            singUp: '/videoWebFront/index/singUp.do',
-            forgPass: '/videoWebFront/index/forgPass.do',
-        };
-        var fun = {
-            singinOpen: function () {
-                layer.closeAll();
-                layer.open({
-                    type: 5,
-                    content: $('#singinhtml').html(),
-                    area: ['500px', '500px'],
-                    title: false,
-                    success: function () {
-                        fun.singin();
-                        $('a[name="singup"]').on('click', function () {
-                            fun.singupOpen()
-                        });
-                        $('a[name="forgpass"]').on('click', function () {
-                            fun.forgpassOpen()
-                        });
-                    }
-                });
-            },
-            singupOpen: function () {
-                layer.closeAll();
-                layer.open({
-                    type: 5,
-                    content: $('#singuphtml').html(),
-                    area: ['500px', '500px'],
-                    title: false,
-                    success: function () {
-                        fun.singup();
-                        $('a[name="singin"]').on('click', function () {
-                            fun.singinOpen()
-                        });
-                    }
-                });
-            },
-            forgpassOpen: function () {
-                layer.closeAll();
-                layer.open({
-                    type: 5,
-                    content: $('#forgpasshtml').html(),
-                    area: ['500px', '400px'],
-                    title: false,
-                    success: function () {
-                        fun.forgpass();
-                        $('a[name="singin"]').on('click', function () {
-                            fun.singinOpen()
-                        });
-                    }
-                });
-            },
-            //登录弹框的登录按钮事件
-            singin: function () {
-                form.on("submit(user-login-submit)", function (data) {
-                    $.ajax({
-                        url: urls.login,
-                        data: {
-                            name: data.field.username,
-                            password: data.field.password,
-                            verifyCodeActual: data.field.vercode,
-                            loginType: 'front'
-                        },
-                        type: 'POST',
-                        success: function (obj) {
-                            if (obj.success) {
-                                location.reload();
-                            } else {
-                                layer.msg(obj.msg, {icon: 2});
-                            }
-                        },
-                        error: function () {//失败处理函数
-                            layer.msg('请求异常！', {icon: 2});
-                        }
-                    });
-                    return false;
-                })
-            },
-            singup: function () {
-                form.on("submit(user-reg-submit)", function (data) {
-                    $.ajax({
-                        url: urls.singUp,
-                        data: {
-                            name: data.field.nickname,
-                            psw: data.field.password,
-                            email: data.field.email,
-                        },
-                        type: 'POST',
-                        success: function (obj) {
-                            if (obj.success) {
-                                layer.msg(obj.msg, {icon: 1});
-                                setTimeout(function () {
-                                    fun.singinOpen();
-                                },2000);
-                            } else {
-                                layer.msg(obj.msg, {icon: 2});
-                            }
-                        },
-                        error: function () {//失败处理函数
-                            layer.msg('请求异常！', {icon: 2});
-                        }
-                    });
-                    return false;
-                })
-            },
-            forgpass: function () {
-                form.on("submit(user-forgpass-submit)", function (data) {
-                    $.ajax({
-                        url: urls.forgPass,
-                        data: {
-                            psw: data.field.password,
-                            email: data.field.email,
-                        },
-                        type: 'POST',
-                        success: function (obj) {
-                            if (obj.success) {
-                                layer.msg(obj.msg, {icon: 1});
-                                setTimeout(function () {
-                                    fun.singinOpen();
-                                },2000);
-                            } else {
-                                layer.msg(obj.msg, {icon: 2});
-                            }
-                        },
-                        error: function () {//失败处理函数
-                            layer.msg('请求异常！', {icon: 2});
-                        }
-                    });
-                    return false;
-                })
-            },
-            isLogin: function () {
-                var loginType = "${loginType}";
-                if (loginType === 'guest') {
-                    return false;
-                } else if (loginType === 'user') {
-                    return true;
-                }
-            }
-        };
-        //监听登录按钮的弹框
-        $('#login').on('click', function () {
-            fun.singinOpen();
-        });
-        //导航栏监听
-        element.on('nav(topNav)', function (elem) {
-            if (elem[0].innerText === '首页') {
-                $('iframe').attr('src', '/videoWebFront/index/home.html');
-            } else if (elem[0].innerText === '分类搜索') {
-                $('iframe').attr('src', '/403.html');
-            } else if (elem[0].innerText === '数据统计') {
-                if (fun.isLogin()){
-                    $('iframe').attr('src', '/404.html');
-                }else {
-                    fun.singinOpen();
-                }
-            } else if (elem[0].innerText === '个人信息') {
-                if (fun.isLogin()){
-                    $('iframe').attr('src', '/404.html');
-                }else {
-                    fun.singinOpen();
-                }
-            }
-        });
-    });
-</script>
 </html>

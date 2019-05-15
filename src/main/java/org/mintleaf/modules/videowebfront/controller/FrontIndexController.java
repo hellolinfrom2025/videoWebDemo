@@ -58,20 +58,8 @@ public class FrontIndexController {
     public ModelAndView index() {
         ModelAndView view =new ModelAndView("modules/videowebfront/index.html");
         String username = (String) SecurityUtils.getSubject().getPrincipal();
-        System.out.print(username);
         CoreUser user=userDao.sample(username);
         view.addObject("user", user);
-        return view;
-    }
-
-    /**
-     * 进入前台首页面
-     * @return
-     */
-    @ApiOperation(value="进入前台首页面", notes="描述")
-    @RequestMapping(value="home.html",method = {RequestMethod.GET})
-    public ModelAndView home(){
-        ModelAndView view =new ModelAndView("modules/videowebfront/home.html");
         return view;
     }
 

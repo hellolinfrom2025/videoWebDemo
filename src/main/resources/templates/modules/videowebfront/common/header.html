@@ -1,0 +1,197 @@
+<%
+var loginType;
+if(so.isGuest()){
+loginType = 'guest';
+}
+if(so.isUser()){
+loginType = 'user';
+}
+%>
+<link href="${ctxPath!}/css/front/userlogin.css" rel="stylesheet">
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" href="/">
+            <img src="${ctxPath!}/images/front/logo.png" alt="layui">
+        </a>
+        <ul class="layui-nav fly-nav layui-hide-xs" lay-filter="headNav">
+            <li class="layui-nav-item layui-this">
+                <a href="javascript:;"><i class="layui-icon layui-icon-home"></i>首页</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;"><i class="layui-icon layui-icon-search"></i>分类搜索</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" target="_blank"><i class="layui-icon layui-icon-chart"></i>数据统计</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" target="_blank"><i class="layui-icon layui-icon-username"></i>个人信息</a>
+            </li>
+        </ul>
+        <ul class="layui-nav fly-nav-user">
+            <!-- 未登入的状态 -->
+            <% if(so.isGuest()){%>
+            <li class="layui-nav-item">
+                <a id="login" href="javascripts:;">登入</a>
+            </li>
+            <%}%>
+            <% if(so.isUser()){%>
+            <!-- 登入后的状态 -->
+            <li class="layui-nav-item">
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="layui-hide-xs">${session.user.name}</cite>
+                    <i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：layui 作者"></i>
+                    <i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>
+                    <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="user/set.html"><i class="layui-icon">&#xe620;</i>基本信息</a></dd>
+                    <dd><a href="user/message.html"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>
+                    </dd>
+                    <hr style="margin: 5px 0;">
+                    <dd><a href="/videoWebFront/index/loginOut.do" style="text-align: center;">退出</a></dd>
+                </dl>
+            </li>
+            <%}%>
+        </ul>
+    </div>
+</div>
+<!--登录弹框模板-->
+<script id="singinhtml" type="text/html">
+    <div class="user-login user-display-show" id="user-singin" style="display: none;">
+        <div class="user-login-main">
+            <div class="user-login-box user-login-header">
+                <h2>hi,又来啦！</h2>
+                <p>社交账号登入暂未开通^-^</p>
+            </div>
+            <div class="user-login-box user-login-body layui-form">
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-username"
+                           for="user-singin-username"></label>
+                    <input type="text" name="username" id="user-singin-username" lay-verify="required"
+                           placeholder="用户名" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-password"
+                           for="user-singin-password"></label>
+                    <input type="password" name="password" id="user-singin-password" lay-verify="required"
+                           placeholder="密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-row">
+                        <div class="layui-col-xs7">
+                            <label class="user-login-icon layui-icon layui-icon-vercode"
+                                   for="user-singin-vercode"></label>
+                            <input type="text" name="vercode" id="user-singin-vercode" lay-verify="required"
+                                   placeholder="图形验证码" class="layui-input">
+                        </div>
+                        <div class="layui-col-xs5">
+                            <div style="margin-left: 10px;">
+                                <img src="/captcha/getCaptcha.jpg" alt="点击更换" title="点击更换"
+                                     onclick="refresh()" class="user-login-codeimg" id="captcha_img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="margin-bottom: 20px;">
+                    <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
+                    <a name="forgpass" class="user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="user-login-submit">登 入</button>
+                </div>
+                <div class="layui-trans layui-form-item user-login-other">
+                    <label>社交账号登入</label>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
+                    <a name="singup" class="user-jump-change layadmin-link">注册帐号</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<!--注册弹框模板-->
+<script id="singuphtml" type="text/html">
+    <div class="user-login user-display-show" id="user-singup" style="display: none;">
+        <div class="user-login-main">
+            <div class="user-login-box user-login-header">
+                <h2>起个牛逼的名字</h2>
+                <p>邮箱是你找回密码的唯一途径，请记住哈！</p>
+            </div>
+            <div class="user-login-box user-login-body layui-form">
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-username" for="user-singup-nickname"></label>
+                    <input type="text" name="nickname" id="user-singup-nickname" lay-verify="nickname" placeholder="昵称"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-password" for="user-singup-password"></label>
+                    <input type="password" name="password" id="user-singup-password" lay-verify="pass" placeholder="密码"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-password" for="user-singup-repass"></label>
+                    <input type="password" name="repass" id="user-singup-repass" lay-verify="required"
+                           placeholder="确认密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-cellphone" for="user-singup-email"></label>
+                    <input type="text" name="email" id="user-singup-email" lay-verify="email" placeholder="邮箱"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="user-reg-submit">注 册</button>
+                </div>
+                <div class="layui-trans layui-form-item user-login-other">
+                    <a name="singin" class="user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<!--忘记密码弹框模板-->
+<script id="forgpasshtml" type="text/html">
+    <div class="user-login user-display-show" id="user-forgpass" style="display: none;">
+        <div class="user-login-main">
+            <div class="user-login-box user-login-header">
+                <h2>设置新密码</h2>
+            </div>
+            <div class="user-login-box user-login-body layui-form">
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-cellphone" for="user-forgpass-email"></label>
+                    <input type="text" name="email" id="user-forgpass-email" lay-verify="email" placeholder="邮箱"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-password" for="user-forgpass-password"></label>
+                    <input type="password" name="password" id="user-forgpass-password" lay-verify="pass" placeholder="密码"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="user-login-icon layui-icon layui-icon-password" for="user-forgpass-repass"></label>
+                    <input type="password" name="repass" id="user-forgpass-repass" lay-verify="required"
+                           placeholder="确认密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="user-forgpass-submit">确 认</button>
+                </div>
+                <div class="layui-trans layui-form-item user-login-other">
+                    <a name="singin" class="user-jump-change layadmin-link layui-hide-xs">用已有帐号登入</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+    var isLogin = function () {
+        var loginType = '${loginType}';
+        if (loginType === 'guest') {
+            return false;
+        } else if (loginType === 'user') {
+            return true;
+        }
+    };
+</script>

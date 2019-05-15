@@ -43,7 +43,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/login.html", "anon");
         filterChainDefinitionMap.put("/login.do", "anon");
         filterChainDefinitionMap.put("/videoWebFront/index/index.html", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/index/home.html", "anon");
         filterChainDefinitionMap.put("/videoWebFront/index/singUp.do", "anon");
         filterChainDefinitionMap.put("/videoWebFront/index/forgPass.do", "anon");
         filterChainDefinitionMap.put("/videoWebFront/index/getHotVideo.do", "anon");
