@@ -6,7 +6,7 @@ sample
 
 cols
 ===
-	id,video_id,content,from_user_id,time
+	id,video_id,content,from_user_id,time,liked,likedCount
 
 updateSample
 ===

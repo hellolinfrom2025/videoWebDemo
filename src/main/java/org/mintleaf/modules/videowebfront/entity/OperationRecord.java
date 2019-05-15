@@ -1,4 +1,5 @@
 package org.mintleaf.modules.videowebfront.entity;
+import org.beetl.sql.core.annotatoin.AssignID;
 import org.beetl.sql.core.annotatoin.Table;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class OperationRecord   {
 	/*
 	操作记录表主键
 	*/
+	@AssignID
 	private Integer id ;
 	/*
 	操作次数

@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="${ctxPath!}/css/front/global.css">
     <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.8.1/skins/default/aliplayer-min.css"/>
+    <link rel="stylesheet" href="${ctxPath!}/css/front/note.css">
 </head>
 <body>
 
@@ -29,104 +30,162 @@
                 <a href=""><i class="layui-icon layui-icon-star" style="font-size: 30px; color: #ff4033;"></i></a>
                 <a href=""><i class="layui-icon layui-icon-download-circle"
                               style="font-size: 30px; color: #ff4033;"></i></a>
-                <p>${video.desc!}</p>
-                <p>${video.remark!}</p>
+                <blockquote class="layui-elem-quote ">
+                    <p>${video.desc!}</p>
+                    <p>${video.remark!}</p>
+                </blockquote>
             </div>
+
+
+            <div class="fly-panel" id="commentsView">
+                <div class="note_comments">
+                    <div class="note_comments_tol">
+                        <span>6</span>条评论
+                    </div>
+                    <div id="note_comments">
+                        <div class="note_comment">
+                            <div class="note_comment_icon">
+                                <img src="${ctxPath!}/images/user/touxian1.jpg" onerror="onError(this)" alt="">
+                            </div>
+                            <div class="note_comment_com">
+                                <div class="yi_comment_box">
+                                    <div class="note_comm_author">恕难从命<span>03月08日</span>
+                                    </div>
+                                    <div class="note_comm_content">
+                                        <div class="p1">老弟有多少鱼干了</div>
+                                    </div>
+                                    <div class="note_comm_state">
+                                        <div class="box1 " onclick="_likeNoteComment(this,'643942' )" likecount="0" liked="0">
+                                            <div class="icon_zan"></div>
+                                            <span></span>
+                                        </div>
+                                        <div class="box2" onclick="_addReplayBox(this,'643942','恕难从命')">
+                                            <img src="https://neets.cc/assets/imgTopics/icon_comment.png" alt="">回复
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                </div>
+                                <div class="replyAreaMain">
+                                        <div class="replyAreas">
+                                            <div class="replyArea">
+                                                <div>
+                                                    <span class="p1">杜小胖</span>
+                                                    <span class="p2">回复</span>
+                                                    <span class="p1">恕难从命</span>
+                                                    :
+                                                </div>
+                                                <div class="note_comm_state">
+                                                    <div class="box6">
+                                                        03月11日
+                                                    </div>
+                                                    <div style="margin-left:30px" class="box1 " onclick="_likeNoteComment(this,'900012' )" likecount="0" liked="0">
+                                                        <div class="icon_zan"></div>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="box4" onclick="_addReplayBox(this,'900012','杜小胖')">
+                                                        <img src="https://neets.cc/assets/imgTopics/icon_comment.png" alt="">回复
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+
+                        <div class="note_comment">
+                            <div class="note_comment_icon">
+                                <img src="${ctxPath!}/images/user/touxian1.jpg" onerror="onError(this)" alt="">
+                            </div>
+                            <div class="note_comment_com">
+                                <div class="yi_comment_box">
+                                    <div class="note_comm_author">影之心<span>03月04日</span>
+                                    </div>
+                                    <div class="note_comm_content">
+                                        <div class="p1">我想换个手机壳</div>
+                                    </div>
+                                    <div class="note_comm_state">
+                                        <div class="box1 " onclick="_likeNoteComment(this,'643363' )" likecount="1" liked="0">
+                                            <div class="icon_zan"></div>
+                                            <span>1人赞</span>
+                                        </div>
+                                        <div class="box2" onclick="_addReplayBox(this,'643363','影之心')">
+                                            <img src="https://neets.cc/assets/imgTopics/icon_comment.png" alt="">
+                                            回复
+                                        </div>
+                                        <div style="clear:both"></div>
+                                    </div>
+                                </div>
+                                <div class="replyAreaMain">
+                                        <div class="replyAreas">
+                                            <div class="replyArea">
+                                                <div>
+                                                    <span class="p1">杜小胖</span>
+                                                    <span class="p2">回复</span>
+                                                    <span class="p1">影之心</span>
+                                                    :
+                                                    <span class="p3">那个很简单啊，每天完成任务很快的</span>
+                                                </div>
+                                                <div class="note_comm_state">
+                                                    <div class="box6">
+                                                        03月04日
+                                                    </div>
+                                                    <div style="margin-left:30px" class="box1 " onclick="_likeNoteComment(this,'643387' )" likecount="0" liked="0">
+                                                        <div class="icon_zan"></div>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="box4" onclick="_addReplayBox(this,'643387','杜小胖')">
+                                                        <img src="https://neets.cc/assets/imgTopics/icon_comment.png" alt="">回复
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </div>
+                                            <div class="replyArea">
+                                                <div>
+                                                    <span class="p1">影之心</span>
+                                                    <span class="p2">回复</span>
+                                                    <span class="p1">杜小胖</span>
+                                                    :
+                                                    <span class="p3">我是今天才发现有任务这东西，也今天才发现原来有积分兑换这东西，也今天才发现原来有积分这东西_(:з」∠)_</span>
+                                                </div>
+                                                <div class="note_comm_state">
+                                                    <div class="box6">03月04日</div>
+                                                    <div style="margin-left:30px" class="box1 " onclick="_likeNoteComment(this,'643392' )" likecount="0" liked="0">
+                                                        <div class="icon_zan"></div>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="box4" onclick="_addReplayBox(this,'643392','影之心')">
+                                                        <img src="https://neets.cc/assets/imgTopics/icon_comment.png" alt="">
+                                                        回复
+                                                    </div>
+                                                    <div style="clear:both"></div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </div>
+
+                    <!--分页-->
+                    <div style="text-align: center;clear: both;" class="customBootstrap">
+                        <ul class="pagination" id="pagination1">
+                            <li class="first disabled" jp-role="first" jp-data="1"><a href="javascript:;">首页</a></li>
+                            <li class="prev disabled" jp-role="prev" jp-data="0"><a href="javascript:;">上页</a></li>
+                            <li class="page active" jp-role="page" jp-data="1"><a href="javascript:;">1</a></li>
+                            <li class="next disabled" jp-role="next" jp-data="2"><a href="javascript:;">下页</a></li>
+                            <li class="last disabled" jp-role="last" jp-data="1"><a href="javascript:;">尾页(1)</a></li></ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+
 
             <div class="fly-panel detail-box" id="flyReply">
                 <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
-                    <legend>回帖</legend>
+                    <legend>评论</legend>
                 </fieldset>
-
-                <ul class="jieda" id="jieda">
-                    <li data-id="111" class="jieda-daan">
-                        <a name="item-1111111111"></a>
-                        <div class="detail-about detail-about-reply">
-                            <a class="fly-avatar" href="">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                     alt=" ">
-                            </a>
-                            <div class="fly-detail-user">
-                                <a href="" class="fly-link">
-                                    <cite>贤心</cite>
-                                    <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                                    <i class="layui-badge fly-badge-vip">VIP3</i>
-                                </a>
-
-                                <span>(楼主)</span>
-                                <!--
-                                <span style="color:#5FB878">(管理员)</span>
-                                <span style="color:#FF9E3F">（社区之光）</span>
-                                <span style="color:#999">（该号已被封）</span>
-                                -->
-                            </div>
-
-                            <div class="detail-hits">
-                                <span>2017-11-30</span>
-                            </div>
-
-                            <i class="iconfont icon-caina" title="最佳答案"></i>
-                        </div>
-                        <div class="detail-body jieda-body photos">
-                            <p>香菇那个蓝瘦，这是一条被采纳的回帖</p>
-                        </div>
-                        <div class="jieda-reply">
-              <span class="jieda-zan zanok" type="zan">
-                <i class="iconfont icon-zan"></i>
-                <em>66</em>
-              </span>
-                            <span type="reply">
-                <i class="iconfont icon-svgmoban53"></i>
-                回复
-              </span>
-                            <div class="jieda-admin">
-                                <span type="edit">编辑</span>
-                                <span type="del">删除</span>
-                                <!-- <span class="jieda-accept" type="accept">采纳</span> -->
-                            </div>
-                        </div>
-                    </li>
-
-                    <li data-id="111">
-                        <a name="item-1111111111"></a>
-                        <div class="detail-about detail-about-reply">
-                            <a class="fly-avatar" href="">
-                                <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
-                                     alt=" ">
-                            </a>
-                            <div class="fly-detail-user">
-                                <a href="" class="fly-link">
-                                    <cite>贤心</cite>
-                                </a>
-                            </div>
-                            <div class="detail-hits">
-                                <span>2017-11-30</span>
-                            </div>
-                        </div>
-                        <div class="detail-body jieda-body photos">
-                            <p>蓝瘦那个香菇，这是一条没被采纳的回帖</p>
-                        </div>
-                        <div class="jieda-reply">
-              <span class="jieda-zan" type="zan">
-                <i class="iconfont icon-zan"></i>
-                <em>0</em>
-              </span>
-                            <span type="reply">
-                <i class="iconfont icon-svgmoban53"></i>
-                回复
-              </span>
-                            <div class="jieda-admin">
-                                <span type="edit">编辑</span>
-                                <span type="del">删除</span>
-                                <span class="jieda-accept" type="accept">采纳</span>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- 无数据时 -->
-                    <!-- <li class="fly-none">消灭零回复</li> -->
-                </ul>
-
                 <div class="layui-form layui-form-pane">
                     <form action="/jie/reply/" method="post">
                         <div class="layui-form-item layui-form-text">
@@ -162,15 +221,75 @@
         </div>
     </div>
 </div>
-<%
-var loginType;
-if(so.isGuest()){
-loginType = 'guest';
-}
-if(so.isUser()){
-loginType = 'user';
-}
-%>
+<script id="commentsArea" type="text/html">
+    {{# if(d.comments && d.comments.commentVo &&  d.comments.commentVo.length>0 ){ }}
+    {{# layui.each(comments.commentVo(function(index,item){  }}
+    <div class="note_comment">
+        <div class="note_comment_icon">
+            <img src="${ctxPath!}/images/user/touxian1.jpg" alt="">
+        </div>
+        <div class="note_comment_com">
+            <div class ='yi_comment_box'>
+                <div class="note_comm_author">{{= item.commentName }}
+                    <span>{{= item.commentTime }}</span>
+                </div>
+                <div class="note_comm_content">
+                    <div class="p1">{{= item.content }}</div>
+                </div>
+                <div class="note_comm_state">
+                    <div class="box1 {{= item.liked?'act':'' }}" onclick="_likeNoteComment(this,'{{=item.id }}' )" likeCount='{{= item.likeCount?item.likeCount:0 }}'  liked='{{= item.liked }}'>
+                        <div class="icon_zan"></div>
+                        <span>{{# if(item.likeCount){ }}
+                                {{= item.likeCount?item.likeCount:0 }}人赞
+                            {{# } }}
+                        </span>
+                    </div>
+                    <div class="box2" onclick="_addReplayBox(this,'{{= item.id }}','{{= item.commentName }}')">
+                        <img src="https://neets.cc/assets/imgTopics/icon_comment.png" alt="">回复
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+
+            {{# if(item.subComments && item.subComments.secondLvCommentVos && item.subComments.secondLvCommentVos.length>0){  }}
+            <div class="replyAreaMain">
+                <div class="replyAreaMain_1">
+                    <div class='replyAreas'>
+                        {{# layui.each(item.subComments.secondLvCommentVos(function(index,itemSub){ }}
+                        <div class="replyArea">
+                            <div>
+                                <span class="p1">{{= itemSub.replyName }}</span>
+                                <span class="p2">回复</span>
+                                <span class="p1">{{= itemSub.repliedName }}</span>
+                                :
+                                <span class="p3">{{= itemSub.content }}</span>
+                            </div>
+                            <div class="note_comm_state">
+                                <div class="box6">{{= itemSub.commentTime }}</div>
+                                <div style="margin-left:30px" class="box1 {{= itemSub.liked?'act':'' }}" onclick="_likeNoteComment(this,'{{=itemSub.id }}' )" likeCount='{{= itemSub.likeCount?itemSub.likeCount:0 }}'  liked='{{= itemSub.liked }}'>
+                                    <div class="icon_zan"></div>
+                                    <span>{{# if(itemSub.likeCount){ }}
+                                            {{= itemSub.likeCount?itemSub.likeCount:0 }}人赞
+                                        {{# } }}
+                                    </span>
+                                </div>
+                                <div class="box4" onclick="_addReplayBox(this,'{{= itemSub.id }}','{{= itemSub.replyName }}')">
+                                    <img src="https://neets.cc/assets/imgTopics/icon_comment.png" alt="">回复
+                                </div>
+                                <div style="clear:both"></div>
+                            </div>
+                        </div>
+                        {{#  }) }}
+                    </div>
+                </div>
+            </div>
+            {{# } }}
+        </div>
+        <div style="clear:both"></div>
+    </div>
+    {{# }) }}
+    {{# } }}
+</script>
 <%include("/modules/videowebfront/common/footer.html"){}%>
 <script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.all.js"></script>

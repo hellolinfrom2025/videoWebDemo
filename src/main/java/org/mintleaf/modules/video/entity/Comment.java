@@ -6,8 +6,10 @@ import org.beetl.sql.core.annotatoin.Table;
 import org.beetl.sql.core.orm.OrmCondition;
 import org.beetl.sql.core.orm.OrmQuery;
 import org.mintleaf.modules.core.entity.CoreUser;
+import org.mintleaf.modules.videowebfront.entity.CommentVo;
 
 import java.util.Date;
+import java.util.List;
 
 
 /*
@@ -41,7 +43,10 @@ public class Comment extends TailBean {
     */
     private String content;
     private Date time;
+    private Boolean liked;
+    private Integer likeCount;
     //VO字段
+    private List<CommentVo> commentVos;
     private String videoTitle;
     private String videoDesc;
     private String userName;
@@ -152,4 +157,16 @@ public class Comment extends TailBean {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    public List<CommentVo> getCommentVos() { return commentVos; }
+
+    public void setCommentVos(List<CommentVo> commentVos) { this.commentVos = commentVos; }
+
+    public Boolean getLiked() { return liked; }
+
+    public void setLiked(Boolean liked) { this.liked = liked; }
+
+    public Integer getLikeCount() { return likeCount; }
+
+    public void setLikeCount(Integer likeCount) { this.likeCount = likeCount; }
 }

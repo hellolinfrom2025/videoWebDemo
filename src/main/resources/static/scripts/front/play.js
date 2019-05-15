@@ -65,7 +65,6 @@ layui.use(['table', 'element', 'form', 'layer','laytpl'], function () {
                 curr++;
                 player.loadByUrl(vlist_2[curr]);
             }
-
             player.on("ended", endedHandle);
             $.ajax({
                 url: '/parseVideoUrl/getPptvUrl', //访问的链接
@@ -91,11 +90,37 @@ layui.use(['table', 'element', 'form', 'layer','laytpl'], function () {
                     layer.msg("视频解析失败:" + e, {icon: 5});
                 }
             });
+        },
+        //获取视频的评论和回复信息
+        noteComment:function () {
+            $.get('/play/getComments',function (res) {
+                if (res.success){
+                    var tplData = { //数据
+                        "comments":res.data,
+                        "refItemId": "refItem" + index
+                        , "refValTypeAddId": "refValTypeAdd" + index
+                        , "inputFromAddId": "inputFromAdd" + index
+                        , "inputToAddId": "inputToAdd" + index
+                        , "delRefClickId": "delRefClick" + index
+                        , "seqItemId": "seqItem" + index
+                        , "delSeqClickId": "delSeqClick" + index
+                    };
+                    var laytpl = layui.laytpl, view = $('#commentsView');
+                    var getTpl = $('#commentsArea').html();
+                    laytpl(getTpl).render(tplData, function (html) {
+                        view.append(html);
+                        formRefresh();
+                    });
+                }
+
+            });
+
         }
     };
 
     fun.getSimilarVideoTableData();
     fun.getHotVideoTableData();
     fun.videoPlay();
+    fun.noteComment();
 
 });

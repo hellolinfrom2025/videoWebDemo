@@ -57,9 +57,6 @@ public class FrontIndexController {
     @RequestMapping(value="index.html",method = {RequestMethod.GET})
     public ModelAndView index() {
         ModelAndView view =new ModelAndView("modules/videowebfront/index.html");
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        CoreUser user=userDao.sample(username);
-        view.addObject("user", user);
         return view;
     }
 

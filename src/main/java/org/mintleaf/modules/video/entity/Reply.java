@@ -51,6 +51,8 @@ public class Reply extends TailBean {
     */
     private String replyType;
     private Date time;
+    private Boolean liked;
+    private Integer likeCount;
     //VO字段
     private String commentCont;
     private String fromUserName;
@@ -217,4 +219,12 @@ public class Reply extends TailBean {
     public void setToUserName(String toUserName) {
         this.toUserName = toUserName;
     }
+
+    public Boolean getLiked() { return liked; }
+
+    public void setLiked(Boolean liked) { this.liked = liked; }
+
+    public Integer getLikeCount() { return likeCount; }
+
+    public void setLikeCount(Integer likeCount) { this.likeCount = likeCount; }
 }

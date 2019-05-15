@@ -1,0 +1,155 @@
+/* 评论 */
+.note_comments{
+    padding:20px 16px;
+    background: #fff;
+}
+.note_comments_tol{
+    font-size: 18px;
+    color: #333333;
+}
+.note_comment{
+    padding: 20px 0;
+    border-bottom: 1px solid #E1E1E1;
+}
+.note_comment .note_comment_icon img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+.note_comment .note_comment_icon{
+    float: left;
+}
+.note_comment .note_comment_com{
+    width: 625px;
+    float: left;
+    margin-left:12px;
+}
+.yi_comment_box:hover .note_comm_state .box3{
+    display: block;
+    cursor: pointer;
+}
+.replyArea:hover .note_comm_state .box3{
+    display: block;
+    cursor: pointer;
+}
+
+.note_comm_author{
+    font-size: 14px;
+    color: #458AD9;
+    margin-bottom: 6px;
+}
+.note_comm_author span{
+    font-size: 13px;
+    color: #999999;
+}
+.note_comm_content{
+    margin-bottom: 16px;
+}
+.note_comm_content .p1{
+    font-size: 14px;
+    color: #333333;
+    line-height: 24px;
+    margin-bottom: 12px;
+}
+.note_comm_content .imgs{
+    font-size: 0px;
+}
+.note_comm_content .imgs img{
+    width: 83px;
+    height: 83px;
+    margin-right: 8px;
+}
+
+.note_comm_state{
+    font-size: 13px;
+    color: #999;
+}
+.note_comm_state .box1{
+    float: left;
+    cursor: pointer;
+}
+.note_comm_state .box1 .icon_zan{
+    width: 15px;
+    height: 15px;
+    background:url('https://neets.cc/assets/imgTopics/icon_praise.png');
+    display: inline-block;
+    vertical-align: top;
+}
+.note_comm_state .box1.act{
+}
+
+.note_comm_state .box1.act .icon_zan{
+    background:url('https://neets.cc/assets/imgTopics/icon_praise_highlight.png');
+    background-size: cover;
+}
+
+
+.note_comm_state .box2{
+    float: left;
+    margin-left: 30px;
+    cursor: pointer;
+}
+.note_comm_state .box3{
+    float: right;
+    display: none;
+}
+.replyAreaMain{
+    border-left: 1px solid #E1E1E1;
+    padding-left: 10px;
+    margin-top: 13px;
+}
+.replyArea{
+    margin-bottom: 14px;
+}
+.replyArea.end{
+    margin-bottom:0px;
+}
+.replyArea .p1{
+    font-size: 13px;
+    color: #458AD9;
+}
+.replyArea .p3{
+    font-size: 14px;
+    color: #151515;
+    line-height: 24px;
+}
+.replyArea .p2{
+    font-size: 13px;
+    color: #999
+}
+.note_comm_state .box4{
+    float: left;
+    margin-left: 30px;
+    cursor: pointer;
+}
+.note_comm_state .box5{
+    float: left;
+    margin-left: 30px;
+    cursor: pointer;
+}
+.note_comm_state .box6{
+    float: left;
+}
+/*分页*/
+.customBootstrap ul {
+    padding: 12px; }
+
+.customBootstrap .pagination > .active > a, .customBootstrap .pagination > .active > a:hover, .customBootstrap .pagination > .active > a:focus {
+    color: #fff;
+    background: #FFDE02;
+    border-color: #FFDE02; }
+
+.customBootstrap .pagination > li {
+    display: inline-block; }
+
+.customBootstrap .pagination > li > a {
+    margin-right: 5px;
+    border-radius: 2px;
+    background: #fff;
+    color: #333;
+    border-color: #ccc;
+    padding: 4px 12px; }
+
+.customBootstrap .pagination > li.disabled > a {
+    background: fff;
+    color: #999; }
