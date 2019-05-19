@@ -153,3 +153,60 @@
 .customBootstrap .pagination > li.disabled > a {
     background: fff;
     color: #999; }
+/*回复*/
+.replay_com_box{
+    width: 100%;
+    margin-top: 20px;
+    display: none;
+    position: relative;
+}
+.replay_com_box textarea{
+    width: 620px;
+    height: 160px;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    padding:15px;
+    text-indent: 50px;
+}
+.replay_com_box .replay_com_tx{
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    background: #fff;
+    padding-left: 10px;
+    padding-top: 15px;
+}
+.replay_com_box .replay_com_tx span{
+    color: #458AD9;
+}
+.addComBtns{
+    padding-top: 12px;
+}
+.addComBtnsL{
+    float: left;
+}
+.addComBtnsL img{
+    width: 35px;
+    height: 35px;
+}
+.addComBtnsR{
+    float: right;
+}
+.addComBtnsR span{
+    display: inline-block;
+    cursor: pointer;
+}
+.addComBtnsR .span1{
+    font-size: 16px;
+    color: #999999;
+    padding: 5px 20px;
+    background:#fff;
+    border-radius: 4px;
+}
+.addComBtnsR .span2{
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 5px 20px;
+    background: #5EAEFF;
+    border-radius: 4px;
+}

@@ -10,8 +10,6 @@ import org.mintleaf.modules.core.dao.CoreUserRoleDao;
 import org.mintleaf.modules.core.entity.CoreRole;
 import org.mintleaf.modules.core.entity.CoreUser;
 import org.mintleaf.modules.core.entity.CoreUserRole;
-import org.mintleaf.modules.video.entity.Video;
-import org.mintleaf.modules.video.entity.VideoTag;
 import org.mintleaf.modules.videowebfront.dao.RecommendedDao;
 import org.mintleaf.utils.MD5Util;
 import org.mintleaf.vo.ResultMsg;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static org.mintleaf.vo.ResultMsg.fail;
@@ -30,7 +28,7 @@ import static org.mintleaf.vo.ResultMsg.ok;
 
 /**
  * 前台管理主控制器
- * @Author: MengchuZhang
+ * @Author: linql
  * @Date: 2018/8/15 8:24
  * @Version 1.0
  */
@@ -66,9 +64,11 @@ public class FrontIndexController {
      */
     @ApiOperation(value="登出操作", notes="描述")
     @RequestMapping(value = "loginOut.do", method ={RequestMethod.GET,RequestMethod.POST})
-    public ModelAndView loginOut() {
+    public ModelAndView loginOut(HttpServletRequest request) {
+        System.out.println(request.getRequestURI());
         ModelAndView view = new ModelAndView();
-        view.setViewName("redirect:/videoWebFront/index.html");
+//        view.setViewName("redirect:/videoWebFront/index.html");
+        view.setViewName("/login.html");
         SecurityUtils.getSubject().logout();
         return view;
     }
@@ -124,53 +124,5 @@ public class FrontIndexController {
             userDao.updateTemplateById(one);
         }
         return ok();
-    }
-
-    /**
-     * 获得最近一周的视频播放量的前六
-     *
-     * @return
-     */
-    @ResponseBody
-    @ApiOperation(value = "获得最近一周的视频播放量的前六", notes = "描述")
-    @RequestMapping(value = "getHotVideo.do", method = {RequestMethod.GET})
-    public ResultMsg getVideoCurrHot() {
-        List<VideoTag> videos = recommendedDao.getVideoCurrHot("1");
-        List<Video> list = new ArrayList<>();
-        for (VideoTag video : videos) {
-            Video v = new Video();
-            v.setTitle(video.getTails().get("title").toString());
-            v.setCover(video.getTails().get("cover").toString());
-            v.setId(video.getVideoId());
-            v.setPlayCount((Integer.valueOf(video.getTails().get("value").toString())));
-            list.add(v);
-        }
-        ResultMsg result = new ResultMsg();
-        result.setData(list);
-        return result;
-    }
-
-    /**
-     * 获得最新上传的视频的前六
-     *
-     * @return
-     */
-    @ResponseBody
-    @ApiOperation(value = "获得最新上传的视频的前六", notes = "描述")
-    @RequestMapping(value = "getNewUploadVideo.do", method = {RequestMethod.GET})
-    public ResultMsg getNewUploadVideo() {
-        List<Video> videos = recommendedDao.getNewUploadVideo();
-        List<Video> list = new ArrayList<>();
-        for (Video video : videos) {
-            Video v = new Video();
-            v.setTitle(video.getTitle());
-            v.setCover(video.getCover());
-            v.setId(video.getId());
-            v.setPlayCount(video.getPlayCount());
-            list.add(v);
-        }
-        ResultMsg result = new ResultMsg();
-        result.setData(list);
-        return result;
     }
 }

@@ -6,7 +6,7 @@ sample
 
 cols
 ===
-	id,comment_id,reply_id,reply_type,content,from_user_id,to_user_id,time
+	id,comment_id,reply_id,reply_type,content,from_user_id,to_user_id,time,liked,like_count
 
 updateSample
 ===
@@ -52,4 +52,10 @@ deleteByCommIds
 ====
 * 批量删除操作
 
-delete from reply where comment_id in (#join(ids)#)	
+delete from reply where comment_id in (#join(ids)#)
+	
+findByCommentId
+====
+* 通过评论ID查询回复
+
+select #use("cols")# from reply  where #use("condition")# order by time desc

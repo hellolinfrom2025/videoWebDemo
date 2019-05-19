@@ -19,7 +19,7 @@ layui.use(['table', 'element', 'form', 'layer', 'carousel','laytpl'], function (
 
     var fun = {
         getHotVideoTableData: function () {
-            $.getJSON('/videoWebFront/index/getHotVideo.do', function (res) {
+            $.getJSON('/videoWebFront/recommend/getHotVideo.do', function (res) {
                 if (res.success) {
                     var viewHtml ='';
                     $.each( res.data, function(i, d){
@@ -32,7 +32,7 @@ layui.use(['table', 'element', 'form', 'layer', 'carousel','laytpl'], function (
             });
         },
         getNewUploadTableData: function () {
-            $.getJSON('/videoWebFront/index/getNewUploadVideo.do', function (res) {
+            $.getJSON('/videoWebFront/recommend/getNewUploadVideo.do', function (res) {
                 if (res.success) {
                     var viewHtml ='';
                     $.each( res.data, function(i, d){

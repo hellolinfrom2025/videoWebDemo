@@ -1,6 +1,7 @@
 package org.mintleaf.modules.video.entity;
 
 import org.beetl.sql.core.TailBean;
+import org.beetl.sql.core.annotatoin.AssignID;
 import org.beetl.sql.core.annotatoin.Table;
 import org.beetl.sql.core.orm.OrmCondition;
 import org.beetl.sql.core.orm.OrmQuery;
@@ -25,6 +26,7 @@ public class Reply extends TailBean {
     /*
     主键
     */
+    @AssignID
     private Integer id;
     /*
     评论ID

@@ -138,7 +138,9 @@ public class IndexController {
             subject.login(token);
             String username = (String) SecurityUtils.getSubject().getPrincipal();
             CoreUser user=coreUserDao.sample(username);
-            session.setAttribute("user", user);
+//            session.setAttribute();
+            subject.getSession().setAttribute("user", user);
+            subject.getSession().setTimeout(1800000);
         } catch (Exception e) {
             e.printStackTrace();
             return fail("用户名或密码错误！");

@@ -14,6 +14,7 @@ import java.util.List;
 @Data
 public class CommentVo {
     private Integer id;
+    private Integer commentId;
     private String commentName;
     private String content;
     private Date commentTime;

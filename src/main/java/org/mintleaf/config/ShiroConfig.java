@@ -45,14 +45,13 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/videoWebFront/index/index.html", "anon");
         filterChainDefinitionMap.put("/videoWebFront/index/singUp.do", "anon");
         filterChainDefinitionMap.put("/videoWebFront/index/forgPass.do", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/index/getHotVideo.do", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/index/getNewUploadVideo.do", "anon");
         filterChainDefinitionMap.put("/parseVideoUrl/getPptvUrl", "anon");
         filterChainDefinitionMap.put("/videoWebFront/play/play.html", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/play/getSimilarVideo.do", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/comment/getComments.page*", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/recommend/*", "anon");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/logout.do", "logout");
         filterChainDefinitionMap.put("/videoWebFront/index/loginOut.do", "logout");
+        filterChainDefinitionMap.put("/logout.do", "logout");
 
         filterChainDefinitionMap.put("/**", "authc");
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
