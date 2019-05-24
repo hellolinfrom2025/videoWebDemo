@@ -42,11 +42,9 @@ public class ShiroConfig {
         //视频网站前后台页面登录
         filterChainDefinitionMap.put("/login.html", "anon");
         filterChainDefinitionMap.put("/login.do", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/index/index.html", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/index/singUp.do", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/index/forgPass.do", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/index/*", "anon");
         filterChainDefinitionMap.put("/parseVideoUrl/getPptvUrl", "anon");
-        filterChainDefinitionMap.put("/videoWebFront/play/play.html", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/play/play.html*", "anon");
         filterChainDefinitionMap.put("/videoWebFront/comment/getComments.page*", "anon");
         filterChainDefinitionMap.put("/videoWebFront/recommend/*", "anon");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了

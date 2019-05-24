@@ -17,7 +17,8 @@ layui.use(['element', 'form', 'layer'], function () {
         if (elem[0].innerText === '首页') {
             window.location.href = '/videoWebFront/index/index.html';
         } else if (elem[0].innerText === '分类搜索') {
-            // $('iframe').attr('src', '/403.html');
+            location.href = '/videoWebFront/index/category.html?pageNo=1&&' +
+                'type=&&country=&&year=&&order=0';
         } else if (elem[0].innerText === '数据统计') {
             if (isLogin()) {
                 // $('iframe').attr('src', '/404.html');

@@ -39,3 +39,10 @@ condition
 findChildTypeByPid
 ===
 select #use("cols")# from video_type  where  pid=#pid#
+
+findByNameAndPid
+===
+select #use("cols")# from video_type  where  pid = #pid#
+@if(!isEmpty(name)){
+and name = #name# 
+@}

@@ -46,8 +46,8 @@ layui.use(['table', 'element', 'form', 'layer', 'carousel','laytpl'], function (
         },
         initRecommendTpl:function(video){
             var tplHtml = '<dl>' +
-                '<dt><a href="/videoWebFront/play/play.html?vid={{d.id}}"><img src="{{d.cover}}"/></a></dt>' +
-                '<dd><a href="/videoWebFront/play/play.html?vid={{d.id}}"><h3>{{d.title}}</h3>' +
+                '<dt><a href="/videoWebFront/play/play.html?vid={{d.id}}" target="_blank"><img src="{{d.cover}}"/></a></dt>' +
+                '<dd><a href="/videoWebFront/play/play.html?vid={{d.id}}" target="_blank"><h3>{{d.title}}</h3>' +
                 '<p>播放量：{{d.playCount}}</p>' +
                 '</a></dd></dl>';
             var string =  laytpl(tplHtml).render({

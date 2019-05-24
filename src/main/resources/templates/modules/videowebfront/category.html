@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>${video.title!}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="fly,layui,前端社区">
+    <meta name="description" content="Fly社区是模块化前端UI框架Layui的官网社区，致力于为web开发提供强劲动力">
+    <link rel="stylesheet" type="text/css" href="${ctxPath!}/plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="${ctxPath!}/css/front/global.css">
+    <link rel="stylesheet" href="${ctxPath!}/css/front/category.css">
+    <link rel="stylesheet" href="${ctxPath!}/css/front/note.css">
+</head>
+<body>
+
+<!--头部导航栏，有登录注册功能-->
+<%include("/modules/videowebfront/common/header.html"){}%>
+
+<div class="layui-container" style="margin-top: 15px">
+    <div class="layui-row layui-col-space15">
+        <div class="fly-panel ">
+            <!--category-->
+            <div class="category_nav" style="margin-bottom:30px">
+                <div class="category_row">
+                    <div class="cate_row_l">
+                        类目
+                    </div>
+                    <div class="cate_row_r" >
+                        <ul>
+                            <li class="" id="all1"><a onclick="_search({type:'',pageNo:'1'})">全部</a></li>
+                            <li class=""><a onclick="_search({type:'音乐',pageNo:'1'})">音乐</a></li>
+                            <li class=""><a onclick="_search({type:'电影',pageNo:'1'})">电影</a></li>
+                            <li class=""><a onclick="_search({type:'动漫',pageNo:'1'})">动漫</a></li>
+                            <li class=""><a onclick="_search({type:'综艺',pageNo:'1'})">综艺</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="category_row">
+                    <div class="cate_row_l">
+                        地区
+                    </div>
+                    <div class="cate_row_r" >
+                        <ul>
+                            <li class="" id="all2"><a onclick="_search({ country:'',pageNo:'1' })">全部</a></li>
+                            <li class=""><a onclick="_search({ country:'大陆',pageNo:'1' })">大陆</a></li>
+                            <li class=""><a onclick="_search({ country:'日本',pageNo:'1' })">日本</a></li>
+                            <li class=""><a onclick="_search({ country:'欧美',pageNo:'1' })">欧美</a></li>
+                            <li class=""><a onclick="_search({ country:'香港',pageNo:'1' })">香港</a></li>
+                            <!--<li class=""><a onclick="_search({ country:'taiwan',page:'1' })">中国台湾</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="category_row">
+                    <div class="cate_row_l">
+                        年代
+                    </div>
+                    <div class="cate_row_r">
+                        <ul>
+                            <li class="" id="all3"><a onclick="_search({year:'',pageNo:'1' })">全部</a></li>
+                            <li class=""><a onclick="_search({ year:'2019',pageNo:'1'  })">2019</a></li>
+                            <li class=""><a onclick="_search({ year:'2018',pageNo:'1'  })">2018</a></li>
+                            <li class=""><a onclick="_search({ year:'2017',pageNo:'1'  })">2017</a></li>
+                            <li class=""><a onclick="_search({ year:'2016',pageNo:'1'  })">2016</a></li>
+                            <li class=""><a onclick="_search({ year:'2015',pageNo:'1'  })">2015</a></li>
+                            <li class=""><a onclick="_search({ year:'2014',pageNo:'1'  })">2014</a></li>
+                            <li class=""><a onclick="_search({ year:'2013',pageNo:'1'  })">2013</a></li>
+                            <li class=""><a onclick="_search({ year:'2012',pageNo:'1'  })">2012</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!--1最热，2最新-->
+            <div class="hot_new_nav clearfix">
+                <div class="fornew" onclick="_search({ order:0,pageNo:'1' })">最新</div>
+                <div class="forhot " onclick="_search({ order:1,pageNo:'1' })">最热</div>
+            </div>
+
+        </div>
+
+        <div class="fly-panel">
+            <!-- 分类视频数据-->
+            <div class="video_list clearfix" id='videoCateView' style="margin-top:30px">
+
+                <input type="hidden" id="pages" value="${videoList.pages!}"/>
+                <input type="hidden" id="total" value="${videoList.total!}"/>
+                <% if( has(videoList) ){ %>
+                <% for(item in videoList.list){  %>
+                <div class="video_li_box">
+                    <div class="v_img">
+                        <a href="/videoWebFront/play/play.html?vid=${item.id}" target="_blank">
+                            <img src="${item.cover}" />
+                        </a>
+                    </div>
+                    <div class="v_box">
+                        <div class="v_box1">
+                            <p><a href="/videoWebFront/play/play.html?vid=${item.id}"
+                                  target="_blank">${item.title}</a></p>
+                        </div>
+                        <div class="v_box2">${item.desc}
+                        </div>
+                        <div videoId='${item.id}' opState=''>
+                            <div class="subcriber_state" onclick="subState(this)">
+                                <div class="sub_state">播放
+                                </div>
+                                <div class="sub_num">${item.playCount}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }%>
+                <% }%>
+
+                <!--分页-->
+                <div style="text-align: center;clear: both;" class="customBootstrap">
+                    <ul class="pagination" id="pagination1"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%include("/modules/videowebfront/common/footer.html"){}%>
+<script type="text/javascript" src="${ctxPath!}/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${ctxPath!}/plugins/jquery/jq-paginator.js"></script>
+<script type="text/javascript" src="${ctxPath!}/plugins/layui/layui.all.js"></script>
+<script type="text/javascript" src="${ctxPath!}/scripts/front/header.js"></script>
+<script type="text/javascript" src="${ctxPath!}/scripts/front/category.js"></script>
+</body>
+</html>

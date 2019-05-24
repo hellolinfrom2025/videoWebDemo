@@ -12,4 +12,5 @@ import java.util.List;
 @SqlResource("videoType")
 public interface VideoTypeDao extends BaseMapper<VideoType> {
     List<VideoType> findChildTypeByPid(@Param("pid") Integer pid);
+    List<VideoType> findByNameAndPid(String name,int pid);
 }

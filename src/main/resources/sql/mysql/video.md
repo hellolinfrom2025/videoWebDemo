@@ -69,3 +69,24 @@ delete from video where id in (#join(ids)#)
 findById
 ===
 SELECT #use("cols")#,t.area,t.category,t.`year` FROM video v LEFT JOIN video_tag  t ON v.video_tag_id=t.id
+
+findVdoPageByCate
+===
+SELECT 
+@pageTag(){
+   v.id,v.title,v.cover,v.`desc`,v.play_count
+@}
+FROM video_tag t ,video v
+WHERE t.video_id =  v.id 
+and t.video_type_id in (#join(typeIds)#)
+or t.video_type_id in (#join(countryIds)#)
+or t.video_type_id in (#join(yearIds)#)
+GROUP BY t.video_id,v.title,v.cover,v.id
+HAVING COUNT(t.video_id)=3
+@if(order == 0){
+ORDER BY v.create_time DESC
+@}else{
+ORDER BY v.play_count DESC
+@}
+
+
