@@ -74,6 +74,7 @@ where date_sub(curdate(),interval #day# day)>=date(createtime)
 
 getUserCountDayToEchart
 ===
+* 后台
 * 获得当前日期的某天前的用户日增长数量给图表
 
 select name from core_user 
@@ -81,9 +82,50 @@ where date_sub(curdate(),interval #day# day)=date(createtime)
 
 getUserActiveToEchart
 ===
-
-* 获得当前日期的某天前的用户日增长数量给图表
+* 后台
+* 获得当前日期的某天前的用户操作类型的数量给图表
 
 select id from operation_record 
 where operation_type=#type# 
 and date_sub(curdate(),interval #day# day)=date(time)
+
+getOneUserActiveToEchart
+===
+* 前台
+* 获得当前日期的某天前的用户操作类型的数量给图表
+
+select id from operation_record 
+where operation_type=#type# 
+and date_sub(curdate(),interval #day# day)=date(time)
+and user_id= #uid#
+
+getUserPlayCountToEchart
+===
+* 前台
+* 获得用户播放量最多的前六数量给图表
+
+select o.id,v.title,o.operation_times 
+from operation_record o 
+LEFT JOIN video v ON o.video_id=v.id
+where operation_type=1
+and user_id= #uid#
+order by operation_times desc limit 6
+
+getUserVideoTypeToEchart
+===
+* 前台
+* 获得用户（播放、下载、点赞、收藏）数量最多的视频标签给图表
+
+SELECT tag.video_type_id,type.`name`,COUNT(*) `value`
+FROM video_tag tag
+LEFT JOIN video_type type ON tag.video_type_id = type.id
+WHERE video_id IN (
+	select o.video_id from operation_record o 
+	where operation_type=#oType#
+	and user_id= #uid#)
+AND type.pid=#vPid#
+GROUP BY tag.video_type_id
+ORDER BY `value` DESC
+
+
+

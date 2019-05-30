@@ -36,4 +36,3 @@ condition
 	 and time=#time#
 	@}
 	
-	

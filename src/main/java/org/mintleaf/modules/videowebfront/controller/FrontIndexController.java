@@ -124,7 +124,7 @@ public class FrontIndexController {
         System.out.println(request.getRequestURI());
         ModelAndView view = new ModelAndView();
 //        view.setViewName("redirect:/videoWebFront/index.html");
-        view.setViewName("/login.html");
+        view.setViewName("/videoWebFront/index/index.html");
         SecurityUtils.getSubject().logout();
         return view;
     }

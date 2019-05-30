@@ -5,10 +5,36 @@ layui.use(['table', 'element', 'form', 'layer', 'laytpl'], function () {
     var commentId = '';
     var toUserId = '';
     var REPLAY_DOM = $('#replay_com_box');
+
+    //监听下载按钮
+    $('#downloadVideo').on('click',function () {
+        if (!isLogin()) {
+            singInWindow();
+            return;
+        }
+        $.get('/videoWebFront/play/download.do?vid='+vid,function (res) {
+            if (res.success){
+                layer.msg('模拟下载成功', {icon:1});
+            }
+        });
+    });
+    //监听收藏按钮
+    $('#collectVideo').on('click',function () {
+        if (!isLogin()) {
+            singInWindow();
+            return;
+        }
+        $.get('/videoWebFront/play/collect.do?vid='+vid,function (res) {
+            if (res.success){
+                layer.msg(res.msg, {icon:1});
+            }
+        });
+    });
+
     var fun = {
         getSimilarVideoTableData: function () {
             var attr = $('#videoId').attr('value');
-            $.getJSON('/videoWebFront/recommend/getSimilarVideo.do?vid=' + attr, function (res) {
+            $.getJSON('/videoWebFront/recommend/getSimilarVideo.do?vid=' + vid, function (res) {
                 if (res.success) {
                     var viewHtml = '';
                     $.each(res.data, function (i, d) {

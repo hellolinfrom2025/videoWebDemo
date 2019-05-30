@@ -21,7 +21,7 @@ layui.use(['element', 'form', 'layer'], function () {
                 'type=&&country=&&year=&&order=0';
         } else if (elem[0].innerText === '数据统计') {
             if (isLogin()) {
-                // $('iframe').attr('src', '/404.html');
+                location.href = '/videoWebFront/dataGraph/index.html';
             } else {
                 singInWindow()
             }

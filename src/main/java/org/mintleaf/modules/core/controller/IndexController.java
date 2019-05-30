@@ -9,6 +9,7 @@ import org.mintleaf.modules.core.dao.CoreMenuDao;
 import org.mintleaf.modules.core.dao.CoreUserDao;
 import org.mintleaf.modules.core.entity.CoreMenu;
 import org.mintleaf.modules.core.entity.CoreUser;
+import org.mintleaf.utils.CaptchaUtils;
 import org.mintleaf.utils.MD5Util;
 import org.mintleaf.vo.ResultMsg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,9 +122,9 @@ public class IndexController {
     @ResponseBody
     public ResultMsg loginDo(HttpServletRequest request){
         //验证码校验
-//        if (!CaptchaUtils.checkVerifyCode(request)) {
-//            return fail("验证码有误！");
-//        }
+        if (!CaptchaUtils.checkVerifyCode(request)) {
+            return fail("验证码有误！");
+        }
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         /*
@@ -138,7 +139,6 @@ public class IndexController {
             subject.login(token);
             String username = (String) SecurityUtils.getSubject().getPrincipal();
             CoreUser user=coreUserDao.sample(username);
-//            session.setAttribute();
             subject.getSession().setAttribute("user", user);
             subject.getSession().setTimeout(1800000);
         } catch (Exception e) {

@@ -47,6 +47,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/videoWebFront/play/play.html*", "anon");
         filterChainDefinitionMap.put("/videoWebFront/comment/getComments.page*", "anon");
         filterChainDefinitionMap.put("/videoWebFront/recommend/*", "anon");
+        filterChainDefinitionMap.put("/videoWebFront/dataGraph/index.html", "anon");
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/videoWebFront/index/loginOut.do", "logout");
         filterChainDefinitionMap.put("/logout.do", "logout");
