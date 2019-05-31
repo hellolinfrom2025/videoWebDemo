@@ -1,6 +1,5 @@
 package org.mintleaf.modules.videowebfront.dao;
 
-import org.beetl.sql.core.annotatoin.Param;
 import org.beetl.sql.core.annotatoin.SqlResource;
 import org.beetl.sql.core.mapper.BaseMapper;
 import org.mintleaf.modules.video.entity.Video;
@@ -12,7 +11,7 @@ import java.util.List;
 @Component
 @SqlResource("recommended")
 public interface RecommendedDao extends BaseMapper<VideoTag> {
-    List<VideoTag> getVideoCurrHot(@Param("type") String type);
+    List<VideoTag> getVideoCurrHot( String type);
     List<Video> getNewUploadVideo();
-    List<VideoTag> getSimilarVideo(@Param("vid") Integer vid);
+    List<VideoTag> getSimilarVideo( Integer vid);
 }

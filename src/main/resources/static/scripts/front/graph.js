@@ -116,7 +116,6 @@ layui.use(['element'], function () {
             },
             tooltip: {}
         };
-
         videoCurrHot.showLoading();
         $.get('/videoWebFront/dataGraph/getUserPlayCount.echart').done(function (res) {
             if (res.success) {

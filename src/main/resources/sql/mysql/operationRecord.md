@@ -36,3 +36,12 @@ condition
 	 and time=#time#
 	@}
 	
+getCollectVidByUId
+===
+* 获取用户收藏的视频
+
+SELECT v.id,v.title,r.time 
+FROM operation_record r 
+LEFT JOIN video v ON r.video_id = v.id 
+WHERE r.user_id = #uid#
+AND r.operation_type=3

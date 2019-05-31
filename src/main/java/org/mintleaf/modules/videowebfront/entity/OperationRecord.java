@@ -1,4 +1,6 @@
 package org.mintleaf.modules.videowebfront.entity;
+
+import org.beetl.sql.core.TailBean;
 import org.beetl.sql.core.annotatoin.AssignID;
 import org.beetl.sql.core.annotatoin.Table;
 
@@ -10,7 +12,7 @@ import java.util.Date;
 * gen by beetlsql 2019-05-15
 */
 @Table(name="mintleaf_fast.operation_record")
-public class OperationRecord   {
+public class OperationRecord  extends TailBean {
 	
 	/*
 	操作记录表主键
@@ -37,6 +39,17 @@ public class OperationRecord   {
 	操作时间
 	*/
 	private Date time ;
+
+	public String getVideoTitle() {
+		return videoTitle;
+	}
+
+	public void setVideoTitle(String videoTitle) {
+		this.videoTitle = videoTitle;
+	}
+
+	//VO字段
+	private String videoTitle;
 	
 	public OperationRecord() {
 	}

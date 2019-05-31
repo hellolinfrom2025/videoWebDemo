@@ -101,6 +101,29 @@ public class PlayController {
         String msg = isCollect ? "收藏成功":"取消收藏";
         ResultMsg resultMsg = new ResultMsg();
         resultMsg.setMsg(msg);
+        resultMsg.setData(isCollect);
+        return resultMsg;
+    }
+    /**
+     * 用户点赞视频
+     *
+     * @return
+     */
+    @ApiOperation(value = "用户收藏视频", notes = "描述")
+    @RequestMapping(value = "like.do", method = {RequestMethod.GET})
+    @ResponseBody
+    public ResultMsg like(Integer vid) {
+        //新增用户操作记录-新增视频
+        OperationRecord or = new OperationRecord();
+        or.setVideoId(vid);
+        or.setOperationType("3");
+        CoreUser user = (CoreUser) session.getAttribute("user");
+        or.setUserId(user.getId());
+        boolean isLike = playService.addlikeRec(or);
+        String msg = isLike ? "点赞成功":"取消点赞";
+        ResultMsg resultMsg = new ResultMsg();
+        resultMsg.setMsg(msg);
+        resultMsg.setData(isLike);
         return resultMsg;
     }
 }

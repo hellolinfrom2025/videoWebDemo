@@ -129,7 +129,7 @@ public class PlayService {
             operationRecDao.insert(newRec);
             isCollect =true;
         }
-        //2. 更新视频的播放量
+        //2. 更新视频的收藏量
         OperationRecord r = new OperationRecord();
         r.setVideoId(record.getVideoId());
         r.setOperationType("4");
@@ -139,6 +139,46 @@ public class PlayService {
         videoDao.updateTemplateById(video);
 
         return isCollect;
+    }
+    /**
+     * 是否点赞
+     *
+     * @param record
+     * @return : boolean
+     * @author : 林清流
+     * @time : 2019/5/15 16:13
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addlikeRec(OperationRecord record) {
+        boolean islike;
+        //1. 用户是否有相关操作历史记录
+        OperationRecord oldRec = operationRecDao.templateOne(record);
+        if (oldRec != null) {
+            //有点赞就删除
+            operationRecDao.deleteById(oldRec.getId());
+            islike= false;
+        } else {
+            //没有就新增点赞记录
+            OperationRecord newRec = new OperationRecord();
+            newRec.setId(new Random().nextInt());
+            newRec.setUserId(record.getUserId());
+            newRec.setVideoId(record.getVideoId());
+            newRec.setOperationType("3");
+            newRec.setOperationTimes(1);
+            newRec.setTime(new Date());
+            operationRecDao.insert(newRec);
+            islike =true;
+        }
+        //2. 更新视频的点赞量
+        OperationRecord r = new OperationRecord();
+        r.setVideoId(record.getVideoId());
+        r.setOperationType("3");
+        Long count = operationRecDao.templateCount(r);
+        Video video = videoDao.single(record.getVideoId());
+        video.setGoodCount(count.intValue());
+        videoDao.updateTemplateById(video);
+
+        return islike;
     }
 
 }

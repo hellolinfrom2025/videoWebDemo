@@ -123,8 +123,7 @@ public class FrontIndexController {
     public ModelAndView loginOut(HttpServletRequest request) {
         System.out.println(request.getRequestURI());
         ModelAndView view = new ModelAndView();
-//        view.setViewName("redirect:/videoWebFront/index.html");
-        view.setViewName("/videoWebFront/index/index.html");
+        view.setViewName("redirect:/videoWebFront/index/index.html");
         SecurityUtils.getSubject().logout();
         return view;
     }

@@ -27,13 +27,34 @@ layui.use(['table', 'element', 'form', 'layer', 'laytpl'], function () {
         $.get('/videoWebFront/play/collect.do?vid='+vid,function (res) {
             if (res.success){
                 layer.msg(res.msg, {icon:1});
+                if (res.data){
+                    $(".layui-icon-star").css("color","red");
+                } else {
+                    $(".layui-icon-star").css("color","#666");
+                }
+            }
+        });
+    });
+    //监听点赞按钮
+    $('#likeVideo').on('click',function () {
+        if (!isLogin()) {
+            singInWindow();
+            return;
+        }
+        $.get('/videoWebFront/play/like.do?vid='+vid,function (res) {
+            if (res.success){
+                layer.msg(res.msg, {icon:1});
+                if (res.data){
+                    $(".layui-icon-praise").css("color","red");
+                } else {
+                    $(".layui-icon-praise").css("color","#666");
+                }
             }
         });
     });
 
     var fun = {
         getSimilarVideoTableData: function () {
-            var attr = $('#videoId').attr('value');
             $.getJSON('/videoWebFront/recommend/getSimilarVideo.do?vid=' + vid, function (res) {
                 if (res.success) {
                     var viewHtml = '';
