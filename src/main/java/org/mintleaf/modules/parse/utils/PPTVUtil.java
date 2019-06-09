@@ -10,9 +10,12 @@ import org.mintleaf.modules.parse.entity.Video;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+
 public class PPTVUtil {
   
 	private static final String APP_KEY = "V8oo0Or1f047NaiMTxK123LMFuINTNeI";
@@ -20,7 +23,7 @@ public class PPTVUtil {
 	private static final Long DELTA = 2654435769L;
 	private static final String HEX = "0123456789abcdef0";
 	private static final String URL = "http://web-play.pptv.com";
-	
+
 	public static Video getVideo(String url) {
 		try {
 			SAXReader reader = new SAXReader();
@@ -123,13 +126,18 @@ public class PPTVUtil {
 	}
 	
 	public static String calcKey(String arg) {
-		
+
 		// 这里没有找到好的方法能转 UTC 时间
 		@SuppressWarnings("deprecation")
 		Date date = new Date(arg);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// CST(北京时间)在东8区
+		sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+		sdf.format(date);
 		int time = (int) ((date.getTime() - (60 * 1000)) / 1000);
-		
-    	String s1 = time2String(time), s2, s3 = SERVER_KEY;
+
+
+		String s1 = time2String(time), s2, s3 = SERVER_KEY;
     	String[] ss1 = deleteFirst(s1.split(""));
     	
         if (ss1.length < 16) {

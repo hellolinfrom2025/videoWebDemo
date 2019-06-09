@@ -95,7 +95,7 @@ public class PPTVProcessor implements PageProcessor {
 
             List<String> urlSeg = new ArrayList<>();
             for (int ii = 0; ii < dt.getSgms(); ii++) {
-                String url = "http://" + dt.getSh() + "/" + ii + "/" + dt.getRid();
+                String url = "http://" + dt.getBh() + "/" + ii + "/" + dt.getRid();
                 String params = "?fpp.ver=1.3.0.24&key=" + key + "&k=" + k + "&type=web.fpp";
                 urlSeg.add(url + params);
             }
