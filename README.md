@@ -9,34 +9,19 @@
 - videoWebDemot是一个基于SpringBoot2.0开发的，轻量级的Java视频网站案例项目
 - 分为管理员后台和用户前台
 ![前台模块](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%89%8D%E5%8F%B0%E6%A8%A1%E5%9D%97.png)
-
+![后台模块](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%90%8E%E5%8F%B0-%E6%A8%A1%E5%9D%97.png)
 
 
 #### 项目特点
-- 代码简洁，注释丰富，上手容易，提供基础模块(用户管理，角色管理，菜单管理，代码生成等8个模块)，可以直接作为一个后台管理系统的脚手架
-- 友好的代码结构及注释，便于阅读及二次开发
+- 代码简洁，上手容易，提供基础模块(用户管理，角色管理，菜单管理，代码生成等8个模块)，视频管理模块（分类管理，视频详情，评论管理，数据统计）
 - 完善的代码生成机制，可在线生成entity、dao、sql代码，减少60%以上的开发任务
-- 支持跨驱动多数据源,加强业务模块的扩展性
 - 基于Shiro实现细粒度权限控制，可控制到页面或按钮，满足绝大部分的权限需求
 - 基于Druid对多数据源进行监控
-- 基于Redis缓存数据以及session共享（用于反向代理集群及SSO单点登录）
 - 基于Swagger对API接口进行管理
 
 
-
-
 #### 技术选型
-- 核心框架：Spring Boot 2.0.5
-- 安全框架：Apache Shiro 1.4.0
-- 视图框架：Beetl 2.8.6
-- 持久层框架：BeetlSQL 2.10.31
-- JSON框架：FastJson 1.2.7
-- 验证码框架：Kaptcha 2.3.2
-- 数据库连接池：Druid 1.0.18
-- 日志管理：SLF4J、Logback
-- API管理：Swagger 2.7.0
-- 页面交互：Layui 2.4.3
-- 数据可视化：ECharts 3.0
+![采用技术](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E4%B8%BB%E8%A6%81%E9%87%87%E7%94%A8%E7%9A%84%E6%8A%80%E6%9C%AF.png)
 
 
 
@@ -55,8 +40,10 @@
 
 
 - IDEA、Eclipse运行Application.java，则可启动项目【mintleaf-fast】
-- 访问路径：http://localhost:8017/index.html
-- 账号密码：root/123456
+- 访问路径：
+  - 后台 http://localhost:8017/login.html
+  - 前台 http://localhost:8017/videoWebFront/index/index.html
+- 账号密码：root/root
 
 
 
@@ -67,49 +54,39 @@
 角色管理 | 100%
 菜单管理 | 100%
 权限管理 | 100%
-文件上传 | 100%
-Druid监控 | 100%
 代码生成 | 100%
 API管理 | 100%
 系统日志 | 100%
-图片管理 | 100%
-图标选择器 | 100%
-树形数据表格 | 100%
-树形下拉选择器 | 100%
-组织管理 | 50%
-
-
-
+视频分类 | 80%
+视频详情 | 90%
+评论管理 | 80%
+数据统计 | 90%
+分类搜索 | 80%
+视频播放 | 80%
+推荐管理 | 50%
+用户统计 | 80%
+个人信息 | 10%
 
 
 
 #### 效果图
-- 登陆页面
-![login.png](http://39.106.153.65:8088/demo/login.png "登陆页面")
-- 主页面
-![index.png](http://39.106.153.65:8088/demo/index.png "主页面")
-- 用户管理页面
-![user.png](http://39.106.153.65:8088/demo/user.png "用户管理页面")
-- 角色管理页面
-![role.png](http://39.106.153.65:8088/demo/role.png "角色管理页面")
-- 权限管理页面
-![permission.png](http://39.106.153.65:8088/demo/permission.png "权限管理页面")
-- 菜单管理页面
-![menu.png](http://39.106.153.65:8088/demo/menu.png "菜单管理页面")
-- 子权限管理页面
-![button.png](http://39.106.153.65:8088/demo/button.png "子权限管理页面")
-- 图标选择器页面
-![icon.png](http://39.106.153.65:8088/demo/icon.png "图标选择器页面")
-- 文件上传页面
-![upload.png](http://39.106.153.65:8088/demo/upload.png "文件上传页面")
-- 数据库监控页面
-![db.png](http://39.106.153.65:8088/demo/db.png "数据库监控页面")
-- 代码生成页面
-![gen.png](http://39.106.153.65:8088/demo/gen.png "代码生成页面")
-- API管理页面
-![api.png](http://39.106.153.65:8088/demo/api.png "API管理页面")
-- 系统日志
-![api.png](http://39.106.153.65:8088/demo/logger.png "API管理页面")
+- 前台首页
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%89%8D%E5%8F%B0-%E9%A6%96%E9%A1%B5.png)
+- 前台视频播放
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%89%8D%E5%8F%B0-%E6%92%AD%E6%94%BE.png)
+- 前台分类搜索页面
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%89%8D%E5%8F%B0-%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2.png)
+- 前台数据统计页面
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%89%8D%E5%8F%B0-%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1.png)
+- 前台个人信息页面
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%89%8D%E5%8F%B0-%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E8%AE%BE%E7%BD%AEpng.png)
+- 后台首页
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%90%8E%E5%8F%B0-%E9%A6%96%E9%A1%B5.png)
+- 后台限评论管理
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%90%8E%E5%8F%B0-%E8%AF%84%E8%AE%BA%E7%AE%A1%E7%90%86.png)
+- 后台数据统计页面
+![](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%90%8E%E5%8F%B0-%E8%A7%86%E9%A2%91%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1.png)
+
 
 
 
