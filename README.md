@@ -1,6 +1,6 @@
 
 #### 在线演示
-- 演示地址：http://http://hellolin.me:8017/videoWebFront/index/index.html
+- 演示地址：http://hellolin.me:8017/videoWebFront/index/index.html
 - 账号密码：小林/123456，或自行注册登录
 
 
@@ -97,7 +97,6 @@ API管理 | 100%
 - [Swagger官网文档](https://swagger.io/irc/ "Swagger官网文档")
 - [Layui2.x官网文档](https://www.layui.com/doc/ "Layui2.x官网文档")
 - [ECharts3.0官网文档](http://echarts.baidu.com/api.html#echarts "ECharts3.0官网文档")
-
 
 
 #### 许可证
