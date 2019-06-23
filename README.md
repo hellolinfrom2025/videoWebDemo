@@ -4,16 +4,11 @@
 - 账号密码：小林/123456，或自行注册登录
 
 
-#### 项目初衷
-- 个人兴趣爱好，整理自己所掌握的技术，并随着技术掌握程度，不定期更新优化
-- 希望此实际项目，能给需要的朋友带来价值,有你们的支持和关注，我的动力将不会衰减，一步步的将项目完善开发下去，定期加入新技术与功能
-
-
 
 #### 项目说明
-- MintLeaf-Fast是一个基于SpringBoot2.0开发的，轻量级的，前后端分离的Java快速开发平台
-- 开箱即用，节省开发时间，提升开发效率，能够快速开发项目并交付的接私活利器
-- 支持MySQL、Oracle、SQL Server等主流数据库
+- videoWebDemot是一个基于SpringBoot2.0开发的，轻量级的Java视频网站案例项目
+- 分为管理员后台和用户前台
+![前台模块](https://raw.githubusercontent.com/hellolinfrom2025/img/master/img/%E5%89%8D%E5%8F%B0%E6%A8%A1%E5%9D%97.png)
 
 
 
@@ -29,50 +24,12 @@
 
 
 
-#### 项目结构
-```
-MintLeaf-Fast
-├─db  项目SQL语句
-│
-├─logs  输出日志
-│
-├─common 公共模块
-│ 
-├─config 配置信息类模块
-│ 
-├─modules 功能模块
-│  ├─app API接口模块(APP调用)
-│  ├─video 业务模块
-│  └─core 核心模块
-│ 
-├─utils 工具类模块
-│ 
-├─vo 视图对象类模块
-│ 
-├─MintLeafApplication 项目启动类
-│  
-├──resources 
-│  ├─sql SQL对应的md文件
-│  ├─static 静态资源
-│  ├─templates 系统页面
-│  │    ├─modules 模块页面
-│  │    ├─index.html 主页面
-│  │    └─login.html 登陆页面
-│  ├─application.properties 全局配置文件
-│  ├─btsql-ext.properties BeetlSQL配置文件
-│  └─logback.xml 日志配置文件
-│
-
-```
-
-
 
 #### 技术选型
 - 核心框架：Spring Boot 2.0.5
 - 安全框架：Apache Shiro 1.4.0
 - 视图框架：Beetl 2.8.6
 - 持久层框架：BeetlSQL 2.10.31
-- 缓存框架：Redis 2.0.2
 - JSON框架：FastJson 1.2.7
 - 验证码框架：Kaptcha 2.3.2
 - 数据库连接池：Druid 1.0.18
@@ -171,7 +128,3 @@ API管理 | 100%
 
 
 
-#### 捐赠作者
-- 如果您觉得此项目对您有价值，请作者喝一杯咖啡吧
-
-![pay.png](http://39.106.153.65:8017/images/demo/pay.png "支付")
